@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://sop.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://sop.com" xmlns:intf="http://sop.com" xmlns:tns1="http://request.sop.com" xmlns:tns2="http://response.sop.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://sop.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://request.sop.com"/>
+   <import namespace="http://response.sop.com"/>
+   <element name="orderProcess">
+    <complexType>
+     <sequence>
+      <element name="request" type="tns1:OrderItemProcessRequest"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="orderProcessResponse">
+    <complexType>
+     <sequence>
+      <element name="orderProcessReturn" type="tns2:OrderItemProcessResponse"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://request.sop.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://response.sop.com"/>
+   <complexType name="Discount">
+    <sequence>
+     <element name="discpercent" type="xsd:double"/>
+     <element name="disctype" nillable="true" type="xsd:string"/>
+     <element name="id" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="Category">
+    <sequence>
+     <element name="desc" nillable="true" type="xsd:string"/>
+     <element name="id" nillable="true" type="xsd:string"/>
+     <element name="name" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="Product">
+    <sequence>
+     <element name="category" nillable="true" type="tns1:Category"/>
+     <element name="desc" nillable="true" type="xsd:string"/>
+     <element name="id" nillable="true" type="xsd:string"/>
+     <element name="name" nillable="true" type="xsd:string"/>
+     <element name="unitcost" type="xsd:double"/>
+    </sequence>
+   </complexType>
+   <complexType name="Orderitem">
+    <sequence>
+     <element name="addid" type="xsd:int"/>
+     <element name="discount" nillable="true" type="tns1:Discount"/>
+     <element name="id" type="xsd:int"/>
+     <element name="orderdate" nillable="true" type="xsd:string"/>
+     <element name="orderid" nillable="true" type="xsd:string"/>
+     <element name="product" nillable="true" type="tns1:Product"/>
+     <element name="quantity" type="xsd:int"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="OrderItemProcessRequest">
+    <sequence>
+     <element name="orderitem" nillable="true" type="tns1:Orderitem"/>
+     <element name="orderstatus" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+  <schema elementFormDefault="qualified" targetNamespace="http://response.sop.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <import namespace="http://request.sop.com"/>
+   <complexType name="OrderItem">
+    <sequence>
+     <element name="addid" type="xsd:int"/>
+     <element name="itemId" type="xsd:int"/>
+     <element name="orderId" nillable="true" type="xsd:string"/>
+     <element name="orderdate" nillable="true" type="xsd:string"/>
+     <element name="prodId" nillable="true" type="xsd:string"/>
+     <element name="quantity" type="xsd:int"/>
+     <element name="status" nillable="true" type="xsd:string"/>
+     <element name="unitcost" type="xsd:double"/>
+     <element name="userid" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <complexType name="OrderItemProcessResponse">
+    <sequence>
+     <element name="orderItem" nillable="true" type="tns2:OrderItem"/>
+     <element name="orderItemTotal" type="xsd:double"/>
+     <element name="orderstatus" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="orderProcessRequest">
+
+      <wsdl:part element="impl:orderProcess" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="orderProcessResponse">
+
+      <wsdl:part element="impl:orderProcessResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="OrderProcessImpl">
+
+      <wsdl:operation name="orderProcess">
+
+         <wsdl:input message="impl:orderProcessRequest" name="orderProcessRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:orderProcessResponse" name="orderProcessResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="OrderProcessImplSoapBinding" type="impl:OrderProcessImpl">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="orderProcess">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="orderProcessRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="orderProcessResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="OrderProcessImplService">
+
+      <wsdl:port binding="impl:OrderProcessImplSoapBinding" name="OrderProcessImpl">
+
+         <wsdlsoap:address location="http://localhost:8080/SOPWeb/services/OrderProcessImpl"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

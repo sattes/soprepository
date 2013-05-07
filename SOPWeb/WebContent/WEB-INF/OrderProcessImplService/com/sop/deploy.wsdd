@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from OrderProcessImplService WSDL service -->
+
+  <service name="OrderProcessImpl" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://sop.com"/>
+      <parameter name="wsdlServiceElement" value="OrderProcessImplService"/>
+      <parameter name="schemaQualified" value="http://response.sop.com,http://request.sop.com,http://sop.com"/>
+      <parameter name="wsdlServicePort" value="OrderProcessImpl"/>
+      <parameter name="className" value="com.sop.OrderProcessImpl"/>
+      <parameter name="wsdlPortType" value="OrderProcessImpl"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://sop.com" xmlns:retNS="http://sop.com" xmlns:rtns="http://response.sop.com" name="orderProcess" qname="operNS:orderProcess" returnQName="retNS:orderProcessReturn" returnType="rtns:OrderItemProcessResponse" soapAction="">
+        <parameter xmlns:pns="http://sop.com" xmlns:tns="http://request.sop.com" qname="pns:request" type="tns:OrderItemProcessRequest"/>
+      </operation>
+      <parameter name="allowedMethods" value="orderProcess"/>
+
+      <typeMapping xmlns:ns="http://request.sop.com" qname="ns:Orderitem" type="java:com.sop.request.Orderitem" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://response.sop.com" qname="ns:OrderItem" type="java:com.sop.response.OrderItem" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://request.sop.com" qname="ns:OrderItemProcessRequest" type="java:com.sop.request.OrderItemProcessRequest" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://request.sop.com" qname="ns:Category" type="java:com.sop.request.Category" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://request.sop.com" qname="ns:Product" type="java:com.sop.request.Product" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://request.sop.com" qname="ns:Discount" type="java:com.sop.request.Discount" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+      <typeMapping xmlns:ns="http://response.sop.com" qname="ns:OrderItemProcessResponse" type="java:com.sop.response.OrderItemProcessResponse" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle=""/>
+  </service>
+</deployment>
