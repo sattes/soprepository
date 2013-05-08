@@ -17,6 +17,7 @@ public class Order {
 	private Address billingAddress;
 	private Address shippingAddress;
 	private List<OrderItem> orderItemList = new ArrayList<OrderItem>();
+	private boolean hasErros;
 	
 	public String getOrderId() {
 		return orderId;
@@ -72,5 +73,11 @@ public class Order {
 	public void setShippingAddress(Address shippingAddress) {
 		this.shippingAddress = shippingAddress;
 	}
-	
+	public boolean isHasErros() {
+		return hasErros;
+	}
+
+	public void setHasErros(boolean hasErros) {
+		this.hasErros = hasErros;
+	}
 }

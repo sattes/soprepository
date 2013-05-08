@@ -30,8 +30,8 @@ public class CategoryAndProductsController {
 	
 	private static Logger logger = Logger.getLogger(CategoryAndProductsController.class);
 	
-	/*@Resource(name = "myProps")
-	private Properties myProps;*/
+	@Resource(name = "myProps")
+	private Properties myProps;
 	
 	@Resource(name = "prodDao")
 	private ProductDao prodDao;
@@ -56,7 +56,7 @@ public class CategoryAndProductsController {
 			logger.error("ClassNotFoundException got from ProductDao in getProductsByCatId(category)");
 			throw e;
 		}
-		
+		caps.setHasErros(false);
 		model.addAttribute("caps", caps);
 		//request.getSession().setAttribute("products", products);
 		
@@ -64,7 +64,7 @@ public class CategoryAndProductsController {
 	}
 	
 	@RequestMapping(value="/gotocart", method = RequestMethod.POST)
-	public String goToCart(@RequestParam(value = "selectedProdIds", required = false) String[] selectedProdIds, @ModelAttribute("caps")CatAndProducts caps, @ModelAttribute("order")Order order, HttpServletRequest request) throws ClassNotFoundException, SQLException {
+	public String goToCart(@RequestParam(value = "selectedProdIds", required = false) String[] selectedProdIds, @ModelAttribute("caps")CatAndProducts caps, @ModelAttribute("order")Order order, HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
 		logger.debug("Inside goToCart method...");
 		
 		Set<Product> selectedProducts = null;
@@ -73,6 +73,14 @@ public class CategoryAndProductsController {
 			selectedProducts = new HashSet<Product>();
 		} else {
 			selectedProducts = (HashSet<Product>)obj;
+		}
+		logger.debug("selectedProdIds - "+selectedProdIds);
+		if(selectedProdIds == null && selectedProducts.isEmpty()) {
+			caps.setHasErros(true);
+			model.addAttribute("viewProducts.selectMessage", myProps.getProperty("viewProducts.selectMessage"));
+			return "viewProducts";
+		} else {
+			
 		}
 		try {
 			if(selectedProdIds != null) {
@@ -85,6 +93,11 @@ public class CategoryAndProductsController {
 					for(Product selectedProd : selectedProducts) {
 						logger.debug("ProductId - "+prod.getProductId()+", Selected - "+prod.getSelected()+", Quantity - "+prod.getQuantity());
 						if(selectedProd.getProductId().equals(prod.getProductId())){
+							if(prod.getQuantity() == null) {
+								caps.setHasErros(true);
+								model.addAttribute("viewProducts.quantityMessage", myProps.getProperty("viewProducts.quantityMessage"));
+								return "viewProducts";
+							}
 							selectedProd.setQuantity(prod.getQuantity());
 						}
 					}

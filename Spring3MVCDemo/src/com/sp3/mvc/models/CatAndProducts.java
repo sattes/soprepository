@@ -11,6 +11,8 @@ public class CatAndProducts implements Serializable{
 	private List<Category> categories = new ArrayList<Category>();
 	
 	private List<Product> products = new ArrayList<Product>();
+	
+	private boolean hasErros;
 
 	public List<Category> getCategories() {
 		return categories;
@@ -26,6 +28,14 @@ public class CatAndProducts implements Serializable{
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
+	}
+
+	public boolean isHasErros() {
+		return hasErros;
+	}
+
+	public void setHasErros(boolean hasErros) {
+		this.hasErros = hasErros;
 	}
 	
 }

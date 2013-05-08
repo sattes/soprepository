@@ -102,9 +102,9 @@ public class RegistrationController {
 	public String register(@Valid Customer customer, BindingResult result, Model model) throws SQLException, ClassNotFoundException {
 		logger.debug("Inside register method...");
 		
-		/*if (result.hasErrors()) {
+		if (result.hasErrors()) {
 			return "register";
-		}*/
+		}
 		
 		return doRegister(customer, model);
 		

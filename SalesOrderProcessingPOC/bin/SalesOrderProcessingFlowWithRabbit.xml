@@ -1,0 +1,342 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:si="http://www.springframework.org/schema/integration"
+	xmlns:file="http://www.springframework.org/schema/integration/file"
+	xmlns:stream="http://www.springframework.org/schema/integration/stream"
+	xmlns:sijdbc="http://www.springframework.org/schema/integration/jdbc"
+	xmlns:si-security="http://www.springframework.org/schema/integration/security"
+	xmlns:jms="http://www.springframework.org/schema/integration/jms"
+	xmlns:ws="http://www.springframework.org/schema/integration/ws"
+	xmlns:rmi="http://www.springframework.org/schema/integration/rmi"
+	xmlns:si-xml="http://www.springframework.org/schema/integration/xml"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:si-amqp="http://www.springframework.org/schema/integration/amqp"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+						http://www.springframework.org/schema/integration 
+						http://www.springframework.org/schema/integration/spring-integration-2.1.xsd 
+						http://www.springframework.org/schema/integration/file  
+						http://www.springframework.org/schema/integration/file/spring-integration-file-2.0.xsd
+						http://www.springframework.org/schema/rabbit 
+						http://www.springframework.org/schema/rabbit/spring-rabbit.xsd
+						http://www.springframework.org/schema/integration/amqp 
+						http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+						http://www.springframework.org/schema/integration/jms  
+						http://www.springframework.org/schema/integration/jms/spring-integration-jms-2.0.xsd
+						http://www.springframework.org/schema/integration/jdbc
+                        http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-2.0.xsd  
+						http://www.springframework.org/schema/integration/security
+						http://www.springframework.org/schema/integration/security/spring-integration-security-1.0.xsd 
+						http://www.springframework.org/schema/integration/stream
+						http://www.springframework.org/schema/integration/stream/spring-integration-stream-1.0.xsd 
+						http://www.springframework.org/schema/integration/xml
+           				http://www.springframework.org/schema/integration/xml/spring-integration-xml-2.0.xsd 
+						http://www.springframework.org/schema/integration/ws
+						http://www.springframework.org/schema/integration/ws/spring-integration-ws-2.0.xsd 
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context-2.5.xsd 
+						http://www.springframework.org/schema/integration/rmi
+						http://www.springframework.org/schema/integration/rmi/spring-integration-rmi-1.0.xsd">
+ <context:component-scan base-package="com.sop.test" />  
+
+<bean id="transAttribute" class="org.springframework.transaction.interceptor.DefaultTransactionAttribute">
+	<property name="isolationLevel" value="4"></property>
+	<property name="propagationBehavior" value="3"></property>
+	
+	
+</bean>
+<si:channel id="errorOutBoundChannel"></si:channel>
+	<si:publish-subscribe-channel id="jmsInboundChannel">
+		<si:interceptors>
+			<ref bean="messageInterceptor"/>
+		</si:interceptors>
+	</si:publish-subscribe-channel>
+	<si:channel id="jdbcAddressInboundChannel"></si:channel>
+	<si:transformer input-channel="jmsInboundChannel" output-channel="jdbcAddressInboundChannel" method="transformAddress">
+	<bean class="com.sop.message.transform.XMLToObjectTransformer" /> 
+	</si:transformer>
+	<si:publish-subscribe-channel id="jdbcInboundChannel">
+	</si:publish-subscribe-channel>
+	<si:publish-subscribe-channel id="errorChannel"></si:publish-subscribe-channel>
+	<si:publish-subscribe-channel id="jmsCustInboundChannel"></si:publish-subscribe-channel>
+	<si:publish-subscribe-channel id="jdbcPaymentInputChannel"></si:publish-subscribe-channel>
+	<si:channel id="jmsPaymentChannel"></si:channel>
+	<si:publish-subscribe-channel id="jdbcCustInputChannel"></si:publish-subscribe-channel>
+	<si:publish-subscribe-channel id="jdbcAddInputChannel"></si:publish-subscribe-channel>
+	<bean id="messageInterceptor" class="com.sop.interceptor.ContentEnrichInterceptor"></bean>
+	
+	<si:publish-subscribe-channel id="wsInboundChannel">
+		<si:interceptors>
+			<ref bean="serviceInterceptor"/>
+		</si:interceptors>
+	</si:publish-subscribe-channel>
+	<bean id="serviceInterceptor" class="com.sop.interceptor.WSRequestCreationInterceptor"></bean>
+	<si:publish-subscribe-channel id="wsOutboundChannel"></si:publish-subscribe-channel>
+	
+	<si:channel id="aggOutputChannel"></si:channel>
+	<si:publish-subscribe-channel id="jdbcInputChannel">
+		<si:interceptors>
+			<si:wire-tap channel="logger"/>
+		</si:interceptors>
+	</si:publish-subscribe-channel>
+	<si:logging-channel-adapter id="logger" level="INFO" />
+	<si:logging-channel-adapter id="errorLogger" level="INFO" channel="errorChannel"/>
+	<bean id="endpoints" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    <property name="locations">
+        <list>
+                   <value>../SalesOrderProcessingPOC/src/Endpoints.properties</value>
+                   <value>../SalesOrderProcessingPOC/src/jdbc.properties</value>
+
+        </list>
+    </property>
+</bean>
+<bean id="propertyConfigurer"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_FALLBACK" />
+    </bean>
+<!--<bean id="rcf" class="com.rabbitmq.client.ConnectionFactory">
+    	<property name="host" value="localhost"/>
+    	<property name="requestedHeartbeat" value="10" />
+</bean>
+
+
+--><rabbit:connection-factory id="rabbitQConnectionFactory"  addresses="${RabbitMQAddresses}" username="${RabbitMQClusterUserName}" password="${RabbitMQClusterPassword}" channel-cache-size="50"  />
+<!--<bean id="rabbitConnectionFactory" class="org.springframework.amqp.rabbit.connection.CachingConnectionFactory"
+  p:username="guest" p:password="guest" p:port="5672">
+  
+  <constructor-arg  value="10.30.135.73" />
+ </bean>
+<bean id="amqpTemplate" class="org.springframework.amqp.rabbit.core.RabbitTemplate">
+<property name="ConnectionFactory" ref="rabbitQConnectionFactory"></property>
+</bean>-->
+
+<rabbit:template id="amqpTemplate" message-converter="DefaultXmlPayloadConverter"  connection-factory="rabbitQConnectionFactory" queue="sopPaymentOutboundQueue" />
+
+<rabbit:template id="amqpTemplate1" message-converter="DefaultXmlPayloadConverter"  connection-factory="rabbitQConnectionFactory" queue="sopErrorQueue" />
+
+<!--<rabbit:fanout-exchange name="fanout.exchange.1.name"> 
+<rabbit:bindings> 
+<rabbit:binding queue="queue1"/> 
+<rabbit:binding queue="queue2"/>
+<rabbit:binding queue="queue3"/>  
+</rabbit:bindings> 
+</rabbit:fanout-exchange> 
+<bean id="connectionFactory" class="${QueueConnectionFactoryClass}">
+	<property name="brokerURL" value="${activeMQBrokerUrl}"/>
+</bean>
+-->
+
+<si-amqp:outbound-channel-adapter channel="errorChannel" exchange-name="amq.direct" routing-key="sopErrorQueue" amqp-template="amqpTemplate1" />
+  <si-amqp:inbound-channel-adapter queue-names="sopErrorQueue"  channel="errorOutBoundChannel" message-converter="DefaultXmlPayloadConverter"  connection-factory="rabbitQConnectionFactory"></si-amqp:inbound-channel-adapter>
+
+<bean id="errorHandler" class="com.sop.services.ErrorHandler"/>
+  <si-amqp:inbound-channel-adapter id="rabbitsopInbound" channel="jdbcInboundChannel" queue-names="sample" message-converter="DefaultXmlPayloadConverter"  connection-factory="rabbitQConnectionFactory"></si-amqp:inbound-channel-adapter>
+
+<bean id="DefaultXmlPayloadConverter" class="org.springframework.amqp.support.converter.SimpleMessageConverter"></bean>
+
+	<si-amqp:inbound-channel-adapter  id="jmsInboundAdapOrder" channel="jmsInboundChannel" receive-timeout="500000" auto-startup="true" concurrent-consumers="2" 
+		queue-names="sopInboundQueue"  connection-factory="rabbitQConnectionFactory" transaction-manager="txManager" transaction-attribute="transAttribute" message-converter="DefaultXmlPayloadConverter"></si-amqp:inbound-channel-adapter>
+	
+	<si-amqp:inbound-channel-adapter id="jmsInboundAdapCustomer" channel="jmsCustInboundChannel" receive-timeout="500000" auto-startup="true" concurrent-consumers="2" error-channel="errorChannel" 
+		queue-names="sopCustInbound" connection-factory="rabbitQConnectionFactory" transaction-manager="txManager" transaction-attribute="transAttribute" message-converter="DefaultXmlPayloadConverter"></si-amqp:inbound-channel-adapter>
+	
+	<si-xml:xpath-splitter input-channel="jmsInboundChannel" output-channel="wsInboundChannel">
+		<si-xml:xpath-expression expression="${xpathExpressionForSplitter}"/>
+	</si-xml:xpath-splitter>
+	<!--<bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        	<property name="contextPath" value="com.sop"></property>
+        </bean>
+	--><ws:outbound-gateway id="simpleGateway"
+	 request-channel="wsInboundChannel" reply-channel="wsOutboundChannel" uri="${orderItemProcessWSUrl}" ignore-empty-responses="false" fault-message-resolver="wsFaultResolver">
+	
+	 </ws:outbound-gateway>
+	 <bean id="wsFaultResolver" class="com.sop.services.WSGatewayFaultResolver"/>
+	<si:aggregator input-channel="wsOutboundChannel"
+		ref="aggregatorBean" method="computeOrderTotal"
+		output-channel="aggOutputChannel" correlation-strategy="correlationStrategy"  release-strategy="defaultSequenceSizerReleaseStrategy">
+	</si:aggregator>
+	<bean id="defaultSequenceSizerReleaseStrategy" class="org.springframework.integration.aggregator.SequenceSizeReleaseStrategy"></bean>
+	<bean id="correlationStrategy" class="org.springframework.integration.aggregator.HeaderAttributeCorrelationStrategy">
+		<constructor-arg value="correlationId"/>
+	</bean> 
+	
+	<bean id="OrderReleaseStrategy" class="com.sop.message.aggregation.OrderReleaseStrategy"></bean>
+	<bean id="aggregatorBean" class="com.sop.message.aggregation.OrderItemTotalAggregator" />
+ <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+  <property name="dataSource" ref="dataSource"/>
+  </bean>
+  
+
+<si:transformer id="transformer"
+    input-channel="aggOutputChannel"
+    method="transform" output-channel="jdbcInputChannel">
+    <bean class="com.sop.message.transform.XMLToObjectTransformer" /> 
+    
+    </si:transformer>
+	<bean id="dataSource" destroy-method="close"      class="org.apache.commons.dbcp.BasicDataSource">      <property name="driverClassName" value="${jdbc.driverClassName}"/>      <property name="url" value="${jdbc.url}"/>        </bean>
+	
+	<sijdbc:outbound-channel-adapter channel="jdbcInputChannel" data-source="dataSource">
+	
+
+
+		<sijdbc:query>  
+
+INSERT INTO sopv2.orders(  
+
+    ORDERID, USERID, ADDRID,ORDERDATE,TOTALPRICE,STATUS)  
+
+VALUES(:payload.id, :payload.userId, :payload.addrId, :payload.orderDate, :payload.orderTotal, :payload.status)  
+
+        </sijdbc:query> 
+		
+	</sijdbc:outbound-channel-adapter>
+	<si:service-activator input-channel="jdbcInputChannel" ref="orderService" method="insertOrderItems"></si:service-activator>
+	
+	<si:transformer id="transformer1"
+		input-channel="jmsCustInboundChannel" method="transformCustomer"
+		output-channel="jdbcCustInputChannel" order="2">
+    <bean class="com.sop.message.transform.XMLToObjectTransformer" /> 
+    
+    </si:transformer>
+
+	<sijdbc:outbound-channel-adapter  channel="jdbcCustInputChannel" data-source="dataSource">
+	
+
+
+
+		<sijdbc:query>  
+
+INSERT INTO sopv2.customer(  
+
+    USERID,PASSWORD,ENABLED,ROLEID,EMAIL,FIRSTNAME,LASTNAME,CUSTTYPE,STATUS)  
+
+VALUES(:payload.userid, :payload.password, :payload.enabled, :payload.userRole, :payload.email, :payload.firstname, :payload.lastname,:payload.custtype, :payload.status)
+
+        </sijdbc:query> 
+		
+	</sijdbc:outbound-channel-adapter>
+	
+	<!-- My REST client injected with spring RestTemplate -->
+	
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+    <property name="messageConverters">
+    <list>
+      <bean id="messageConverter" class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+        <property name="marshaller" ref="xstreamMarshaller" />
+        <property name="unmarshaller" ref="xstreamMarshaller" />
+      </bean>
+    </list>
+    </property>
+  </bean>
+
+  <bean id="xstreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+    <property name="aliases">
+    <props>
+      <prop key="order">com.sop.message.transform.Order</prop>
+      <prop key="payment">com.sop.message.transform.Payment</prop>
+    </props>
+    </property>
+  </bean>
+  
+     <bean id="messageStore"
+          class="org.springframework.integration.store.SimpleMessageStore"/>
+          
+<si:transformer id="transformer2"
+    input-channel="objectTransformerChannel"
+    method="transformPayment" output-channel="jdbcPaymentInputChannel">
+    <bean class="com.sop.message.transform.XMLToObjectTransformer" /> 
+    
+    </si:transformer>
+	<si:transformer id="transformer3"
+    input-channel="objectTransformerChannel"
+    method="transformOrder" output-channel="jdbcOrderInputChannel">
+    <bean class="com.sop.message.transform.XMLToObjectTransformer" /> 
+    
+    </si:transformer>
+	<si:claim-check-in id="paymentCheckin"
+		input-channel="jmsPaymentChannel"
+		output-channel="paymentCheckoutChannel" message-store="messageStore">
+	</si:claim-check-in>
+	<si:claim-check-out id="paymentCheckout"
+		input-channel="paymentCheckoutChannel"
+		output-channel="objectTransformerChannel" message-store="messageStore">
+	</si:claim-check-out>
+	<si:channel id="paymentCheckoutChannel"></si:channel>
+	
+	
+	<si:channel id="jdbcOrderInputChannel"></si:channel>
+	<si:publish-subscribe-channel id="paymentUpdateOutChannel"></si:publish-subscribe-channel>
+	<si:publish-subscribe-channel id="objectTransformerChannel"></si:publish-subscribe-channel>
+	<si:service-activator input-channel="jdbcPaymentInputChannel"
+		id="paymentProcessService" method="processPayment"
+		output-channel="paymentUpdateOutChannel" ref="paymentService" send-timeout="5000000">
+	</si:service-activator>
+	<bean id="paymentService" class="com.sop.services.PaymentProcessingService">
+		<property name="paymentInsQuery" value="${jdbc.paymentInsQuery}"></property>
+		<property name="transQuery" value="${jdbc.transQuery}"></property>
+		<property name="ddInsQuery" value="${jdbc.ddInsQuery}"></property>
+		<property name="cardInfInsQuery" value="${jdbc.cardInfInsQuery}"></property>
+	</bean>
+	
+	<si:service-activator input-channel="jdbcOrderInputChannel"
+		id="orderUpdateService" method="updateOrderBasedonPaymentStatus"
+		output-channel="paymentUpdateOutChannel" ref="orderService">
+		
+	</si:service-activator>
+	<bean id="orderService" class="com.sop.services.OrderService">
+	<property name="orderItemInsQuery" value="${jdbc.orderItemsInsertQuery}"></property>
+	<property name="orderStatusUpdateQuery" value="${jdbc.orderStatusUpdateQuery}"></property>
+	</bean>
+	<si-amqp:inbound-channel-adapter  channel="jmsPaymentChannel" receive-timeout="500000" auto-startup="true" concurrent-consumers="2" error-channel="errorOutBoundChannel" 
+		queue-names="sopPaymentInboundQueue"  id="paymentGateway" message-converter="DefaultXmlPayloadConverter" transaction-manager="txManager" connection-factory="rabbitQConnectionFactory" transaction-attribute="transAttribute"></si-amqp:inbound-channel-adapter>
+		
+	
+	<si:transformer id="addTransformer" input-channel="jmsCustInboundChannel" method="transformAddress" output-channel="jdbcAddInputChannel">
+		<bean class="com.sop.message.transform.XMLToObjectTransformer" /> 
+	</si:transformer>
+	<sijdbc:outbound-channel-adapter  channel="jdbcAddInputChannel" data-source="dataSource">
+	
+
+
+
+		<sijdbc:query>  
+
+INSERT INTO sopv2.address(  
+
+    ADDRID,USERID,ADDRTYPE,ADDR1,ADDR2,CITY,STATE,ZIP,COUNTRY,PHONE)  
+
+VALUES(:payload.addressId, :payload.addUserId, :payload.addressType, :payload.addr1, :payload.addr2,:payload.city, :payload.state, :payload.zipCode, :payload.country, :payload.phoneNumber)  
+
+        </sijdbc:query> 
+        </sijdbc:outbound-channel-adapter>
+        
+        <sijdbc:outbound-channel-adapter  channel="jdbcAddressInboundChannel" data-source="dataSource">
+	
+
+
+
+		<sijdbc:query>  
+	
+INSERT INTO sopv2.address(  
+
+    ADDRID,USERID,ADDRTYPE,ADDR1,ADDR2,CITY,STATE,ZIP,COUNTRY,PHONE)  
+
+VALUES(:payload.addressId, :payload.addUserId, :payload.addressType, :payload.addr1, :payload.addr2,:payload.city, :payload.state, :payload.zipCode, :payload.country, :payload.phoneNumber)  
+
+        </sijdbc:query> 
+        </sijdbc:outbound-channel-adapter>
+        
+        
+  <!--<bean
+    class="org.springframework.ws.server.endpoint.mapping.UriEndpointMapping">
+    <property name="defaultEndpoint" ref="paymentGateway"></property>
+</bean>
+
+
+	--><bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+			<property name="dataSource" ref="dataSource"></property>
+		</bean>
+	<si-amqp:outbound-channel-adapter channel="paymentUpdateOutChannel"
+		id="acknowledgementJMSAdapter" exchange-name="amq.direct" routing-key="sopPaymentOutboundQueue"></si-amqp:outbound-channel-adapter>
+</beans>

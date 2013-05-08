@@ -42,6 +42,12 @@
 				</div>
 				<div style="float:right; width:80%; ">
 					<c:if test="${fn:length(caps.products) > 0}">
+					<c:if test="${caps.hasErros}">
+					<div class="errorblock">
+						<c:out value="${selectMessage}"/>
+						<c:out value="${quantityMessage}"/>
+					</div>
+					</c:if>
 					<table id="datatable">
 						<tr>
 							<th>Select</th><th>ProductId</th><th>Category</th><th>UnitCost</th><th>Name</th><th>Description</th><th>Quantity</th>

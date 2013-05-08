@@ -42,6 +42,13 @@
 				</tr>
 			</table>
 			<fieldset>
+				<c:if test="${order.hasErros}">
+					<div class="errorblock">
+						<c:forEach var="errorMsg" items="${errorList}">
+							<c:out value="${errorMsg}"/><br/>
+						</c:forEach>
+					</div>
+				</c:if>
 				<legend>Order Details</legend>
 				<table id="datatable">
 					<tr>

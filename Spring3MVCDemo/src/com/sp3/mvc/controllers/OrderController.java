@@ -9,8 +9,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -23,6 +25,7 @@ import org.springframework.oxm.Marshaller;
 import org.springframework.oxm.Unmarshaller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -99,10 +102,45 @@ public class OrderController {
     }
 	
 	@RequestMapping(value="/submitorder", method = RequestMethod.POST)
-	public String submitCart(@ModelAttribute("order")Order order, Model model, HttpServletRequest request) throws SQLException, ClassNotFoundException, FileNotFoundException, ParseException {
+	public String submitCart(@ModelAttribute("order")Order order, Model model, BindingResult result, HttpServletRequest request) throws SQLException, ClassNotFoundException, FileNotFoundException, ParseException {
 		logger.debug("Inside OrderController::submitCart method...");
 		
 		logger.debug("Shipping Address - "+order.getShippingAddress());
+		logger.debug("result - "+result);
+		
+		Address shippingAddress = order.getShippingAddress();
+		String address1 = shippingAddress.getAddress1();
+		String city = shippingAddress.getCity();
+		String state = shippingAddress.getState();
+		String zip = shippingAddress.getZip();
+		String country = shippingAddress.getPhone();
+		String phone = shippingAddress.getPhone();
+		if(shippingAddress != null) {
+			List<String> errorList = new ArrayList<String>();
+			if(address1 == null || address1.isEmpty()) {
+				errorList.add(myProps.getProperty("viewCart.address1Message"));
+			}
+			if(city == null || city.isEmpty()) {
+				errorList.add(myProps.getProperty("viewCart.cityMessage"));
+			}
+			if(state == null || state.isEmpty()) {
+				errorList.add(myProps.getProperty("viewCart.stateMessage"));
+			}
+			if(zip == null || zip.isEmpty()) {
+				errorList.add(myProps.getProperty("viewCart.zipMessage"));
+			}
+			if(country == null || country.isEmpty()) {
+				errorList.add(myProps.getProperty("viewCart.countryMessage"));
+			}
+			if(phone == null || phone.isEmpty()) {
+				errorList.add(myProps.getProperty("viewCart.phoneMessage"));
+			}
+			if(!errorList.isEmpty()) {
+				order.setHasErros(true);
+				model.addAttribute("errorList", errorList);
+				return "viewCart";
+			}
+		}
 		
 		return doSubmitCart(order,request);
 		
