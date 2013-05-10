@@ -8,7 +8,9 @@ import com.sp3.mvc.enums.AddressTypeEnum;
 
 public class Address implements Serializable{
 	
+        // this variable is for serialization.
 	private static final long serialVersionUID = 1L;
+
 	
 	private Integer addressId;
 	private String userId;
