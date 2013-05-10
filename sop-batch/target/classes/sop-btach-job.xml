@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-2.1.xsd">
+
+	<batch:job id="flatFileReadingJob">
+		<batch:step id="categoryReadingStep" next="productReadingJob">
+			<batch:tasklet>
+				<batch:chunk reader="reader1" writer="writer1" commit-interval="3"/>
+			</batch:tasklet>
+		</batch:step>
+		<batch:step id="productReadingJob" next="discountsReadingJob">
+			<batch:tasklet>
+				<batch:chunk reader="reader2" writer="writer2" commit-interval="3"/>
+			</batch:tasklet>
+		</batch:step>
+		<batch:step id="discountsReadingJob">
+			<batch:tasklet>
+				<batch:chunk reader="reader3" writer="writer3" commit-interval="3"/>
+			</batch:tasklet>
+		</batch:step>
+	</batch:job>
+	
+	
+	
+	<bean id="reader1" class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="linesToSkip" value="1"/>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="names" value="catId,name,description" />
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean class="com.emc.sqlfire.sop.batch.CategoryFieldSetMapper" />
+				</property>
+			</bean>
+		</property>
+		<property name="resource" value="classpath:category.csv" />
+	</bean>
+	
+	<bean id="writer1" class="com.emc.sqlfire.sop.batch.JdbcCategoryItemWriter">
+		<constructor-arg ref="dataSource" />
+	</bean>
+	
+	<bean id="reader2" class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="linesToSkip" value="1"/>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="names" value="productId,catId,unitCost,name,description" />
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean class="com.emc.sqlfire.sop.batch.ProductFieldSetMapper" />
+				</property>
+			</bean>
+		</property>
+		<property name="resource" value="classpath:product.csv" />
+	</bean>
+	
+	<bean id="writer2" class="com.emc.sqlfire.sop.batch.JdbcProductItemWriter">
+		<constructor-arg ref="dataSource" />
+	</bean>
+	
+	<bean id="reader3" class="org.springframework.batch.item.file.FlatFileItemReader">
+		<property name="linesToSkip" value="1"/>
+		<property name="lineMapper">
+			<bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer">
+						<property name="names" value="discid,custtype,disctype,discpercent" />
+					</bean>
+				</property>
+				<property name="fieldSetMapper">
+					<bean class="com.emc.sqlfire.sop.batch.DiscountsFieldSetMapper" />
+				</property>
+			</bean>
+		</property>
+		<property name="resource" value="classpath:discounts.csv" />
+	</bean>
+	
+	<bean id="writer3" class="com.emc.sqlfire.sop.batch.JdbcDiscountsItemWriter">
+		<constructor-arg ref="dataSource" />
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.vmware.sqlfire.jdbc.ClientDriver" />
+		<property name="url" value="jdbc:sqlfire://INGSMANCHK1L1C:1527/" />
+		<!-- <property name="username" value="root" />
+		<property name="password" value="admin" /> -->
+	</bean>
+	
+
+	<!-- <jdbc:embedded-database type="H2" id="dataSource">
+		<jdbc:script location="classpath:/create-tables.sql" />
+	</jdbc:embedded-database> -->
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean" />
+
+	<bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+	</bean>
+	
+	<bean class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+</beans>

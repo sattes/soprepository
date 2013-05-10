@@ -1,0 +1,3 @@
+roleId,roleDesc,roleName
+1,User Role,ROLE_USER
+2,Admin Role,ROLE_ADMIN

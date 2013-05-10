@@ -1,0 +1,101 @@
+productId,catId,unitCost,name,description
+p01,cat01,599,T-shirts,Round neck/polo solid and printed T-shirts
+p02,cat01,1274,Casual  Shirts,checkered and solid casual and party shirts
+p03,cat01,800,Formal shirts,Striped and checkered and solid formal shirts
+p04,cat01,1329,Winter  Wear,Solid Quilted jackets and sweatshirts
+p05,cat01,999,Jeans,Straight and slim fit Jeans
+p06,cat01,1299,Trousers,Solid chinos casual and formal trousers
+p07,cat01,3216,Suits and Blazers,Solid and checkered waistcoats and suits
+p08,cat01,499,Shorts & 3/4ths,Solid shorts and cargos
+p09,cat01,399,sleep wear, Solid and checkered track-pants
+p10,cat01,99,Accessories,Ankle length socks and cufflinks
+p11,cat02,1199,Shoes,Slip on shoes and outland shoes
+p12,cat02,1499,Casual Shoes,Outland sneakers and woodland boots
+p13,cat02,1899,Sports shoes,Running shoes and lightweight walking shoes
+p14,cat02,1299,Formal shoes,Lee Cooper and Red Tape slip on shoes
+p15,cat02,899,Ethnic shoes,Maco Handmade Juti
+p16,cat02,999,Sandals,Adjustable and slide in sandals and floaters
+p17,cat02,399,Slippers,Convers flip-flops and coolers slippers(by liberty)
+p18,cat02,125,Shoe Care,spray cream polish and freshener
+p19,cat02,1439,Sneakers,Puma Wirko sneakers
+p20,cat02,399,Loafers,Bata Jazz Loafers
+p21,cat03,6430,Nokia Asha,3.2 MP camera 1 Ghz processor
+p22,cat03,14900,Samsung Galaxy S,Android v$.0 OS 5 MP primary camera
+p23,cat03,10990,Blackberry Curve,Blackberry OS 2.44 inch TFT Screen
+p24,cat03,3550,Micromax A25,Android V2.3 AOS Dual SIM
+p25,cat03,12400,HTC Desire C,Android v4.0 OS 3.5 inch touchscreen
+p26,cat03,2299,Samsung Book cover,Samsung EFC-1G5NGECINU Book Cover for Samsung Galaxy Tab 2 P3100
+p27,cat03,800,Headsets,Samsung BHM1100NBEGINU In-the-ear Headset without Charger
+p28,cat03,180,Memory card,Transcend Memory Card MicroSDHC 4GB Class 4	
+p29,cat03,100,ScreenGuard,Rainbow Screen Guard for Samsung S5360 Galaxy Y
+p30,cat03,4650,Tablet,Micromax Funbook Infinity P275 Tablet
+p31,cat04,27886,Dell Laptops,Dell Vostro 1550 Laptop
+p32,cat04,35490,HP Laptops,HP Pavilion G6-2301AX Laptop
+p33,cat04,34500,Lenovo Laptops,Lenovo Essential G580 (59-324064) Laptop
+p34,cat04,39500,Sony Laptops,Sony VAIO T Series SVT13113EN Ultrabook Core i3
+p35,cat04,1659,RAMs,Corsair Vengeance DDR3 4 GB (1 x 4 GB) PC RAM (CMZ4GX3M1A1600C9)
+p36,cat04,2082,Graphic Cards,Asus AMD/ATI Radeon HD 5450 1 GB DDR3 Graphics Card
+p37,cat04,3518,Internal Hard Drives,Seagate Momentus 500 GB Laptop Internal Hard Drive (ST9500325AS)
+p38,cat04,2968,Motherboards,Intel DG41TY Motherboard
+p39,cat04,7169,Processors,Intel i3 3220
+p40,cat04,4990,Laptop Accessories,Dell 1TB USB 3.0 Portable Hard Drive (Black)
+p41,cat05,1135,Casio Watches,Casio Standard Analog Watch - For Men (Black)
+p42,cat05,1795,Fastrack Watches,Fastrack Basics Analog Watch - For Women (Black)
+p43,cat05,2651,Timex Watches,Timex Ironman Digital Watch - Unisex (Black)
+p44,cat05,3695,Titan Watches,Titan Raga Analog Watch - For Women (Gold)
+p45,cat05,861,Sonata Watches,Sonata Tech 1 Analog Watch - For Men (Black)
+p46,cat05,390,Wallet,American Tourister Organiser Wallet - Unisex (Black)
+p47,cat05,745,Bags,Wildcraft Spring Backpack (Green)
+p48,cat05,2621,Bags,United Colors of Benetton Shoulder Bag - For Women
+p49,cat05,2495,I-pad Sleeve,Hidesign Edwin 01 I-Pad Sleeve
+p50,cat05,2400,Wallet,Guess Talina Wallet - For Women (Black)
+p51,cat06,4845,Canon cameras,Canon PowerShot A810 Point & Shoot (Black)
+p52,cat06,4800,Sony Cameras,Sony Cybershot DSC-S5000 Point & Shoot (Pink)
+p53,cat06,13532,Nikon Cameras,Nikon Coolpix L810 Point & Shoot (Black)
+p54,cat06,5399,Panasonic Cameras,Panasonic Lumix DMC-FH4 Point & Shoot (Black)
+p55,cat06,3399,Fujifilm cameras,Fujifilm FinePix C25 Point & Shoot (Black)
+p56,cat06,3999,Olympus cameras,Olympus VG-150 Point & Shoot (Black)
+p57,cat06,1590,Camera bags,Lowepro Adventura 170 DSLR Shoulder Bag (Black)
+p58,cat06,299,Screenguards,Scratchgard Screen Guard for Sony - DSC S3000
+p59,cat06,20805,Lenses,Nikon AF-S DX Nikkor 55-300 mm Lens
+p60,cat06,5990,Binoculars & Optics,Bushnell Powerview Roof Prisms 8 x 21 mm (132514) Binoculars
+p61,cat07,419,Fiction Books,Calcutta: Two Years in the City (Hardcover) by Amit Chaudhuri
+p62,cat07,329,Autobiographies,Seven Deadly Sins
+p63,cat07,354,Children Books,The Amazing Voyage (Hardcover) by Geronimo Stilton
+p64,cat07,304,Teens Books,Heroes of Olympus: The Mark of Athena (Paperback) by Rick Riordan
+p65,cat07,365,Comics & Novel Books,The Sixth Surya Collection Box (Issue 00-06) (Paperback) by Karan Vir
+p66,cat07,500,Management Books,Phone Clones
+p67,cat07,374,Politics Books,Our Moon has Blood Clots
+p68,cat07,300,Academic Books,IBPS-CWE Specialist Officer Recruitment Exam
+p69,cat07,540,School Books,ISC Chemistry for Class XII (Book - 2)
+p70,cat07,188,Entrance Exams Books,JEE Main 2013 Joint Engineering Entrance Main
+p71,cat08,27240,Air Conditioners,Panasonic econ Ivory 1.5 Tons - CS-UC18NKY Split AC
+p72,cat08,399,Emergency Lights,Khaitan Torch LED Emergency Lights
+p73,cat08,601,Iron,Bajaj DX 7 L/W 1000 Watts Iron (White)
+p74,cat08,2799,Vacuum Cleaners,Eureka Forbes Trendy Nano Vacuum Cleaner
+p75,cat08,1380,Water purifiers,HUL Pureit Compact/Classic 14 L Water Purifier (Blue)
+p76,cat08,8150,Washing Machines,Whirlpool Spin 621 Semi-Automatic 6.2 kg Washer Dryer (Duet Wine)
+p77,cat08,1790,Coffee makers,Philips HD 7450 Coffee Maker (Black)
+p78,cat08,1530,Electric Cookers,Panasonic SR WA 10 Electric Cooker
+p79,cat08,730,Electric heaters,Orpat OEK-8127 Electric Kettle (Green)
+p80,cat08,5399,Food Processors,Bajaj FX11 Food Factory Food Processor (White)
+p81,cat09,310,Moisturizers,Olay Natural White Day Cream (50 g)
+p82,cat09,333,Fairness,urita Herbals Transformation Fairness Cream (75 ml)
+p83,cat09,96,Soaps,Vaadi Herbals Neem - Tulsi Soap with Vitamin E & Tea Tree Oil (Set of 3)
+p84,cat09,209,Body Wash,Gatsby Refresh Shower Gel (600 ml)
+p85,cat09,275,Shampoos,Sunsilk Pink Thick and Long Shampoo (675 ml)
+p86,cat09,120,Conditioners,Khadi Green Tea Aloe Vera Hair Conditioner (210 ml)
+p87,cat09,1150,Trimmers,Philips QT4019 Trimmer (Black and Red and Grey)
+p88,cat09,3575,Shavers,Philips AT890/16 Shavers
+p89,cat09,175,Kajal,Maybelline The Colossal Kajal 0.35 g (Black)
+p90,cat09,1350,Deodorants,Davidoff Cool Water Deo Spray - 75 ml (For Men)
+p91,cat10,399,PS2 Games,Dragon Ball Z: Budokai Tenkaichi 3 
+p92,cat10,2999,PS3 Games,DmC: Devil May Cry (Games)
+p93,cat10,799,PSP Games,Street Cricket Champions 2 (Games)
+p94,cat10,2799,PS Vita Games,FIFA 13 (Games)
+p95,cat10,1099,PC Games,Far Cry 3 (The Lost Expeditions Edition) (Games)
+p96,cat10,16990,Wii Console,Nintendo Wii with New Super Mario Bros. Wii (Red)
+p97,cat10,15990,XBox 360 games,Microsoft X-Box 360 4 GB Slim
+p98,cat10,7500,Nintendo games,Nintendo DS Lite (Metallic Rose)
+p99,cat10,3499,Nintendo 3Ds,Paper Mario: Sticker Star (Games)
+p100,cat10,7999,antique games,Hitman: Absolution (Deluxe Professional Edition)
