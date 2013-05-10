@@ -26,7 +26,7 @@ import com.sp3.mvc.models.OrderReport;
 @Controller
 public class OrderReportsController {
 	
-	private static Logger logger = Logger.getLogger(PaymentController.class);
+	private static Logger logger = Logger.getLogger(OrderReportsController.class);
 	
 	@RequestMapping(value="/gotoorderreports", method = RequestMethod.GET)
 	public String goToOrderReports(@ModelAttribute("orderReport")OrderReport orderReport, Model model, HttpServletRequest request) throws SQLException, ClassNotFoundException {

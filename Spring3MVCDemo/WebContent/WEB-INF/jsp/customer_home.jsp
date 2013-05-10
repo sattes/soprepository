@@ -61,6 +61,13 @@
 				</tr>
 				<tr>
 					<td>
+						<sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+							<a href="/Spring3MVCDemo/gotopaymentreports.htm" >Payment Reports Page</a>
+						</sec:authorize>
+					</td>
+				</tr>
+				<tr>
+					<td>
 						<sec:authorize access="hasRole('ROLE_SYSADMIN')">
 							<a href="/Spring3MVCDemo/getDisabledCustomers.htm" >Enable Customer</a>
 						</sec:authorize>
