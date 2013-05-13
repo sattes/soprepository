@@ -2,6 +2,9 @@ package com.sp3.mvc.models;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,24 +15,27 @@ public class Customer implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	@NotEmpty(message = "User Name must not be blank.")
+	@NotEmpty
 	private String userName;
-	@NotEmpty(message = "Password must not be blank.")
+	@NotEmpty
     private String password;
-    @NotEmpty(message = "First Name must not be blank.")
+	@NotEmpty
+    @Size(min = 1, max = 10)
+	@Pattern(regexp = "[a-zA-Z]*")
     private String fname;
-    @NotEmpty(message = "Last Name must not be blank.")
+    @NotEmpty
+    @Size(min = 1, max = 10)
+	@Pattern(regexp = "[a-zA-Z]*")
     private String lname;
-    @NotEmpty(message = "Gender must not be blank.")
+    @NotEmpty
     private String gender;
     /*@NotEmpty(message = "Country must not be blank.")
     private String country;*/
-   
     //private String cb;
     private String typeOfAddress;
     
-    @NotEmpty(message = "email must not be blank.")
-    @Email(message = "email must be valid.")
+    @NotEmpty(message = "E-mail must not be blank.")
+    @Email
     private String email;
     
     private Integer enabled;
@@ -41,6 +47,17 @@ public class Customer implements Serializable{
     private Address customerAddress;
     
     private CustomerRole role;
+    
+    
+    private boolean hasErrors;
+    public boolean isHasErrors() {
+		return hasErrors;
+	}
+	public void setHasErrors(boolean hasErrors) {
+		this.hasErrors = hasErrors;
+	}
+
+    
     
 	public String getUserName() {
 		return userName;
