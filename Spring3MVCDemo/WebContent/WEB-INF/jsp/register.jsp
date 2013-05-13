@@ -76,7 +76,9 @@
 		<table>
 			<tr>
 				<td>Address1</td>
-				<td><form:textarea path="customerAddress.address1" cssClass="tarea"/><font color="red">	<form:errors path="customerAddress.address1" /></font></td>
+				<td><form:textarea path="customerAddress.address1" cssClass="tarea"/></td>
+				<td style="color:#F00">${addr1Message}</td>
+				<%-- <font color="red">	<form:errors path="customerAddress.address1" /></font></td> --%>
 			</tr>
 			<tr>
 				<td>Address2</td>
@@ -84,25 +86,34 @@
 			</tr>
 			<tr>
 				<td>City</td>
-				<td><form:input path="customerAddress.city" /><font color="red">	<form:errors path="customerAddress.city" /></font></td>
+				<td><form:input path="customerAddress.city" /></td>
+				<td style="color:#F00">${cityMessage}</td>
+				<%-- <font color="red">	<form:errors path="customerAddress.city" /></font></td> --%>
 			</tr>
 			<tr>
 				<td>State</td>
-				<td><form:input path="customerAddress.state" /><font color="red">	<form:errors path="customerAddress.state" /></font></td>
+				<td><form:input path="customerAddress.state" /></td>
+				<td style="color:#F00">${stateMessage}</td>
+				<%-- <font color="red">	<form:errors path="customerAddress.state" /></font></td> --%>
 			</tr>
 			<tr>
 				<td>ZIP</td>
-				<td><form:input path="customerAddress.zip" /><font color="red">	<form:errors path="customerAddress.zip" /></font></td>
+				<td><form:input path="customerAddress.zip" /></td>
+				<td style="color:#F00">${zipMessage}</td>
+				<%-- <font color="red">	<form:errors path="customerAddress.zip" /></font></td> --%>
 			</tr>
 			<tr>
 				<td>Country</td>
 				<td>
-					<form:input path="customerAddress.country" /><font color="red">	<form:errors path="customerAddress.country" /></font>
-				</td>
+					<form:input path="customerAddress.country" /></td>
+					<td style="color:#F00">${countryMessage}</td>
+					<%-- <font color="red">	<form:errors path="customerAddress.country" /></font></td> --%>
 			</tr>
 			<tr>
 				<td>Phone</td>
-				<td><form:input path="customerAddress.phone" /><font color="red">	<form:errors path="customerAddress.phone" /></font></td>
+				<td><form:input path="customerAddress.phone" /></td>
+				<td style="color:#F00">${phoneMessage}</td>
+				<%-- <font color="red">	<form:errors path="customerAddress.phone" /></font></td> --%>
 			</tr>
 			<tr></tr>
 		</table>

@@ -17,40 +17,72 @@
         	 $('#div3').hide('fast');
         	 $('#div4').hide('fast');
         	 $('#div5').hide('fast');
-        	
+        	 $('#divb1').hide('fast');
+        	 $('#divb2').hide('fast');
+        	 $('#divb3').hide('fast');
             $('#pmcc').click(function () {
             	$('#div1').show('fast');
+            	if($('#div1visa').click() || $('#div1master').click() || $('#div1amex').click() ) {
+            		$('#divb1').show('fast');
+            		
+            	}
+            	
                $('#div2').hide('fast');
+               $('#divb2').hide('fast');
                $('#div3').hide('fast');
+               $('#divb3').hide('fast');
                $('#div4').hide('fast');
                $('#div5').hide('fast');
               
         });
         $('#pmdc').click(function () {
               $('#div1').hide('fast');
+              $('#divb1').hide('fast');
+              
+              
               $('#div2').show('fast');
+              if($('#div2visa').click() || $('#div2master').click() || $('#div2amex').click() ) {
+          		$('#divb2').show('fast');
+          		
+          	}
+              
               $('#div3').hide('fast');
+              $('#divb3').hide('fast');
               $('#div4').hide('fast');
               $('#div5').hide('fast');
          });
         $('#pmnb').click(function () {
             $('#div1').hide('fast');
+            $('#divb1').hide('fast');
             $('#div2').hide('fast');
+            $('#divb2').hide('fast');
             $('#div3').show('fast');
+            
+            if($('#AxisBank').click() || $('#DuetchBank').click() || $('#ICICIBank').click() || $('#SBI').click() || $('#SBH').click()) {
+          		$('#divb3').show('fast');
+          		
+          	}
+            
             $('#div4').hide('fast');
             $('#div5').hide('fast');
        });
         $('#pmecs').click(function () {
             $('#div1').hide('fast');
+            $('#divb1').hide('fast');
             $('#div2').hide('fast');
+            $('#divb2').hide('fast');
             $('#div3').hide('fast');
+            $('#divb3').hide('fast');
             $('#div4').show('fast');
             $('#div5').hide('fast');
        });
         $('#pmcod').click(function () {
             $('#div1').hide('fast');
+            $('#divb1').hide('fast');
             $('#div2').hide('fast');
+            $('#divb2').hide('fast');
             $('#div3').hide('fast');
+            $('#divb3').hide('fast');
             $('#div4').hide('fast');
             $('#div5').show('fast');
        });
@@ -74,12 +106,16 @@
 			</thead>
 		</table>
 		<table>
-			<tr>
-				<td align="left" width="10%">Welcome <sec:authentication property="principal.username"/>.</td>
-				<td align="right" width="90%">
-  						<a href="<c:url value="/j_spring_security_logout" />" >Logout</a>
-  					</td>
-			</tr>
+			<tbody>
+				<tr>
+					<td align="left" width="10%">Welcome <sec:authentication property="principal.username"/>.</td>
+					<td align="right" width="90%">
+   					
+   						<a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
+   					
+   				</td>
+				</tr>
+			</tbody>
 		</table>
    		<table>
 			<tbody>	
@@ -121,22 +157,33 @@
 	          <form:radiobutton id="div1visa" path="gatewayType" value="VISA"/>Visa&nbsp;
 	          <form:radiobutton id="div1master" path="gatewayType" value="MASTERCARD"/>MasterCard&nbsp;
 	          <form:radiobutton id="div1amex" path="gatewayType" value="AMEX"/>American Express<br />
-	          <input type="submit" class="button" value="Pay Now" name="payNow" onClick="adjust(this);"/>
+	          
        	  </div>
+       	  <div id="divb1"> 
+       	  <input id="button" type="submit" class="button" value="Pay Now" name="payNow" onClick="adjust(this);"/>
+       	  </div>
+       	  
           <div id="div2"> 
 	          <form:radiobutton id="div2visa" path="gatewayType" value="VISA"/>Visa&nbsp;
 	          <form:radiobutton id="div2master" path="gatewayType" value="MASTERCARD"/>MasterCard&nbsp;
 	          <form:radiobutton id="div2amex" path="gatewayType" value="AMEX"/>American Express<br />
-	          <input type="submit" class="button" value="Pay Now" name="payNow" onClick="adjust(this);"/>
+	          
+          </div>
+           <div id="divb2"> 
+          <input id="button2" type="submit" class="button" value="Pay Now" name="payNow" onClick="adjust(this);"/>
           </div>
           <div id="div3"> 
 	          NetBanking
-	          <form:radiobutton path="selectedNetBankName" value="Axis Bank"/>Axis Bank&nbsp;
-	          <form:radiobutton path="selectedNetBankName" value="Duetch Bank"/>Duetch Bank&nbsp;
-	          <form:radiobutton path="selectedNetBankName" value="ICICI Bank"/>ICICI Bank<br/>
-	          <form:radiobutton path="selectedNetBankName" value="SBI"/>SBI&nbsp;
-	          <form:radiobutton path="selectedNetBankName" value="SBH"/>SBH&nbsp;
-	          <input type="submit" class="button" value="Pay Now" name="payNow" onClick="adjust(this);"/>
+	          <form:radiobutton id="AxisBank" path="selectedNetBankName" value="Axis Bank"/>Axis Bank&nbsp;
+	          <form:radiobutton id="DuetchBank" path="selectedNetBankName" value="Duetch Bank"/>Duetch Bank&nbsp;
+	          <form:radiobutton id="ICICIBank"  path="selectedNetBankName" value="ICICI Bank"/>ICICI Bank&nbsp;
+	          <form:radiobutton  id="SBI" path="selectedNetBankName" value="SBI"/>SBI&nbsp;
+	          <form:radiobutton id="SBH" path="selectedNetBankName" value="SBH"/>SBH&nbsp;
+	          
+          </div>
+          
+          <div id="divb3">
+          <input id="button3" type="submit" class="button" value="Pay Now" name="payNow" onClick="adjust(this);"/>
           </div>
           <div id="div4"> 
 	          ECS
