@@ -29,6 +29,11 @@
         </property>
     </bean>
     
+    <bean id ="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    	<property name="basename" value="/WEB-INF/properties/messages">
+    	</property>
+    </bean>
+    
     <bean id="myProps" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 	  <property name="location" value="/WEB-INF/properties/myprops.properties"/>
 	</bean>
