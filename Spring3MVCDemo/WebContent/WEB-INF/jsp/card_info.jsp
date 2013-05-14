@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	function adjust(obj) {
 		if(obj.name == "Back") {
-			document.txnpage.action = "/Spring3MVCDemo/backtopaymentreport.htm";
+			document.cardinfopage.action = "/Spring3MVCDemo/backtotxn.htm";
 			return true;
 		}
 		
@@ -21,7 +21,7 @@
 </script>
 </head>
 <body>
-	<form:form action="" name="txnpage">
+	<form:form action="" name="cardinfopage">
 	<table class="mainheader">
 		<thead>
 			<tr>
@@ -37,22 +37,22 @@
 			</td>
 		</tr>
 	</table>
-	<c:if test="${fn:length(txnReports) > 0}">
+	<c:if test="${fn:length(txnCardReports) > 0}">
 	<table id="datatable">
 		<tr>
-			<th>TransactionId</th>
-			<th>TransactionType</th>
-			<th>TransactionAmount</th>
-			<th>TransactionDate</th>
-			<th>Details</th>
+			<th>CardNumber</th>
+			<th>NameOnCard</th>
+			<th>ExpDate</th>
+			<th>CardType</th>
+			<th>GatewayType</th>
 		</tr>
-		<c:forEach var="report" items="${txnReports}">
+		<c:forEach var="report" items="${txnCardReports}">
 			<tr>
-				<td>${report.transactionId}</td>
-		      	<td>${report.transType}</td>
-		     	<td>${report.transAmount}</td>
-		      	<td>${report.transDate}</td>
-		      	<td><a href="/Spring3MVCDemo/gettxntypeinfo.htm?txntype=${report.transType}&&txnid=${report.transactionId}" title="Show Transaction Type Details">Show Transaction Type Details</a></td>
+				<td>${report.cardNumber}</td>
+		      	<td>${report.nameOnCard}</td>
+		     	<td>${report.expiryDate}</td>
+		      	<td>${report.cardType}</td>
+		      	<td>${report.cardGatewayType}</td>
 		    </tr>
 		</c:forEach>  
 	</table>

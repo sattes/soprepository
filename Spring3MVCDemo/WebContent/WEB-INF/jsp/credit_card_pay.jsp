@@ -68,7 +68,7 @@
 				</tr>
 				<tr>
 					<td>CVV Number</td>
-					<td><form:input path="cardInfo.cvvNumber" /></td>
+					<td><form:password path="cardInfo.cvvNumber" /></td>
 				</tr>
 				<tr></tr>
 				<tr>

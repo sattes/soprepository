@@ -13,7 +13,7 @@
 <script type="text/javascript">
 	function adjust(obj) {
 		if(obj.name == "Back") {
-			document.txnpage.action = "/Spring3MVCDemo/backtopaymentreport.htm";
+			document.ddpage.action = "/Spring3MVCDemo/backtotxn.htm";
 			return true;
 		}
 		
@@ -21,7 +21,7 @@
 </script>
 </head>
 <body>
-	<form:form action="" name="txnpage">
+	<form:form action="" name="ddpage">
 	<table class="mainheader">
 		<thead>
 			<tr>
@@ -37,22 +37,32 @@
 			</td>
 		</tr>
 	</table>
-	<c:if test="${fn:length(txnReports) > 0}">
+	<c:if test="${fn:length(txnDebitReports) > 0}">
 	<table id="datatable">
 		<tr>
-			<th>TransactionId</th>
-			<th>TransactionType</th>
-			<th>TransactionAmount</th>
-			<th>TransactionDate</th>
-			<th>Details</th>
+			<th>AccHolderName</th>
+			<th>AccNumber</th>
+			<th>AccType</th>
+			<th>BankName</th>
+			<th>BranchName</th>
+			<th>IFSC Code</th>
+			<th>DebtAmount</th>
+			<th>DebtDate</th>
+			<th>DebFrequency</th>
+			<th>DebtStatus</th>
 		</tr>
-		<c:forEach var="report" items="${txnReports}">
+		<c:forEach var="report" items="${txnDebitReports}">
 			<tr>
-				<td>${report.transactionId}</td>
-		      	<td>${report.transType}</td>
-		     	<td>${report.transAmount}</td>
-		      	<td>${report.transDate}</td>
-		      	<td><a href="/Spring3MVCDemo/gettxntypeinfo.htm?txntype=${report.transType}&&txnid=${report.transactionId}" title="Show Transaction Type Details">Show Transaction Type Details</a></td>
+				<td>${report.accHolderName}</td>
+		      	<td>${report.accNumber}</td>
+		     	<td>${report.accType}</td>
+		      	<td>${report.bankName}</td>
+		      	<td>${report.branchName}</td>
+		      	<td>${report.ifscCode}</td>
+		     	<td>${report.debtAmount}</td>
+		      	<td>${report.debtDate}</td>
+		      	<td>${report.debtFrequency}</td>
+		      	<td>${report.debtStatus}</td>
 		    </tr>
 		</c:forEach>  
 	</table>
