@@ -21,7 +21,10 @@
         <security:intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <security:intercept-url pattern="/logoutSuccess*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <security:intercept-url pattern="/index.htm" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-        <security:intercept-url pattern="/css/main.css" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:intercept-url pattern="/css/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:intercept-url pattern="/js/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:intercept-url pattern="/images/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <security:intercept-url pattern="/fonts/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
         <security:intercept-url pattern="/resources/**" access="IS_AUTHENTICATED_ANONYMOUSLY"  />
         <security:intercept-url pattern="/gotoupdatepayments.htm" access="ROLE_ADMIN" />
         <security:intercept-url pattern="/viewmyproduct.htm" access="IS_AUTHENTICATED_ANONYMOUSLY" />
