@@ -20,7 +20,8 @@
 		<param-value>
 			/WEB-INF/dispatcher-servlet.xml,
 			/WEB-INF/jdbc-config.xml,
-			/WEB-INF/spring-security.xml
+			/WEB-INF/spring-security.xml,
+			/WEB-INF/spring-aop.xml
 		</param-value>
 	</context-param>
 	<listener>
