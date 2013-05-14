@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.sop.dao.AddressDao;
 import com.sop.dao.CustomerDao;
 import com.sop.dao.CustomerRoleDao;
+import com.sp3.mvc.dao.DBUtils;
 //import com.sop.dao.DBUtils;
 import com.sp3.mvc.enums.AddressTypeEnum;
 import com.sp3.mvc.enums.CustomerStatusEnum;
@@ -111,6 +112,7 @@ public class RegistrationController {
 	}
 	
 	private String doRegister(Customer customer, Model model) throws SQLException, ClassNotFoundException {
+		Integer addrId=0; 
 		logger.debug("Inside doRegister method...");
 		logger.debug("First Name = "+customer.getFname());
 		logger.debug("Last Name = "+customer.getLname());
@@ -134,9 +136,10 @@ public class RegistrationController {
 		customer.setStatus(CustomerStatusEnum.ACTIVE);
 		customer.setEnabled(0);
 		
-		Integer addrId = addrDao.getMaxAddressId();
+		addrId = addrDao.getMaxAddressId();
+		logger.info("Increasing address id :-" + addrId);
 		addrId = addrId + 1;
-		
+		logger.info("Increased address id is :- "+ addrId);
 		Address customerAddr = customer.getCustomerAddress();
 		customerAddr.setUserId(customer.getUserName());
 		customerAddr.setAddressId(addrId);
@@ -172,14 +175,14 @@ public class RegistrationController {
 		customer.setRole(custRole);
 		
 		// Enable this code for Local Data Base - Start
-		/*Connection conn = null;
+		Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
 			logger.debug("Connection is successful");
 			conn.setAutoCommit(false);
 			conn.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-			custDao.insertCustomer(conn,customer);
-			addrDao.insertAddress(conn, customerAddr);
+			custDao.insertCustomer(customer);
+			addrDao.insertAddress(customerAddr);
 			
 			conn.commit();
 		} catch (SQLException e) {
@@ -191,11 +194,11 @@ public class RegistrationController {
 			conn.rollback();
 		} finally {
 			DBUtils.closeConnection(conn);
-		}*/
+		}
 		// Enable this code for Local Data Base - End
 		
 		//Enable this code for sending Address xml - Start
-		com.sp3.mvc.jaxb.Address jaxbCustAddr = JaxbHelper.getJaxbAddress(customerAddr, customer);
+		/*com.sp3.mvc.jaxb.Address jaxbCustAddr = JaxbHelper.getJaxbAddress(customerAddr, customer);
 		String textMessage = getMarshalledString(jaxbCustAddr);
 		textMessage = textMessage.replaceAll("ns2:", "");
 		textMessage = textMessage.replaceAll("ns3:", "");
@@ -206,7 +209,7 @@ public class RegistrationController {
 		String qName = myProps.getProperty("registration.qname");
 		String ipAddress = myProps.getProperty("ip.address");
 		AMQPMessageHelper helper = new AMQPMessageHelper();
-		helper.sendMessage(textMessage,exchangeName, qName,ipAddress);
+		helper.sendMessage(textMessage,exchangeName, qName,ipAddress);*/
 		//Enable this code for sending Address xml - End
 		
 		logger.debug("Registration record inserted successfully...");
