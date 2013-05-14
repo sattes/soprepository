@@ -43,14 +43,14 @@
 			<batch:tasklet>
 				<batch:chunk reader="reader3" writer="writer3" commit-interval="10"/>
 			</batch:tasklet>
-			<!-- <batch:next on="COMPLETED" to="customerRolesReadingStep"/> -->
+			<batch:next on="COMPLETED" to="customerRolesReadingStep"/>
 		</batch:step>
 		
-		<!-- <batch:step id="customerRolesReadingStep">
+		<batch:step id="customerRolesReadingStep">
 			<batch:tasklet>
 				<batch:chunk reader="reader4" writer="writer4" commit-interval="10"/>
 			</batch:tasklet>
-		</batch:step> -->
+		</batch:step>
 		
 	</batch:job>
 	

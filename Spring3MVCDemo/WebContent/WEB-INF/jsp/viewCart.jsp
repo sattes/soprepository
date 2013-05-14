@@ -42,14 +42,14 @@
 				</tr>
 			</table>
 			<fieldset>
-				<c:if test="${order.hasErros}">
+				<%-- <c:if test="${order.hasErros}">
 					<div class="errorblock">
 						<c:forEach var="errorMsg" items="${errorList}">
 							<c:out value="${errorMsg}"/><br/>
 						</c:forEach>
 					</div>
-				</c:if>
-				<legend>Order Details</legend>
+				</c:if>--%>				
+		 <legend>Order Details</legend>
 				<table id="datatable">
 					<tr>
 						<th>ProductId</th><th>Category</th><th>UnitCost</th><th>Name</th><th>Description</th><th>Quantity</th>
@@ -70,9 +70,13 @@
 			<fieldset>
 				<legend>Shipping Address</legend>
 				<table>
+				      <%-- <c:forEach items="${errorList}" var="error">
+					     <c:out value="${error}"/>
+						</c:forEach>  --%>
 					<tr>
 						<td>Address1</td>
 						<td><form:textarea path="shippingAddress.address1" /></td>
+						<td style="color:#F00">${addr1Message}</td> 
 					</tr>
 					<tr>
 						<td>Address2</td>
@@ -81,24 +85,29 @@
 					<tr>
 						<td>City</td>
 						<td><form:input path="shippingAddress.city" /></td>
+						<td style="color:#F00">${cityMessage}</td>
 					</tr>
 					<tr>
 						<td>State</td>
 						<td><form:input path="shippingAddress.state" /></td>
+						 <td style="color:#F00">${stateMessage}</td>
 					</tr>
 					<tr>
 						<td>ZIP</td>
 						<td><form:input path="shippingAddress.zip" /></td>
+					 <td style="color:#F00">${zipMessage}</td>
 					</tr>
 					<tr>
 						<td>Country</td>
 						<td>
 							<form:input path="shippingAddress.country" />
+							<td style="color:#F00">${countryMessage}</td> 
 						</td>
 					</tr>
 					<tr>
 						<td>Phone</td>
 						<td><form:input path="shippingAddress.phone" /></td>
+						 <td style="color:#F00">${phoneMessage}</td>
 					</tr>
 				</table>
 				</fieldset>

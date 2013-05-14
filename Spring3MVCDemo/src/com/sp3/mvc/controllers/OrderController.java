@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -109,7 +111,7 @@ public class OrderController {
 		logger.debug("result - "+result);
 		
 		Address shippingAddress = order.getShippingAddress();
-		String address1 = shippingAddress.getAddress1();
+		/*String address1 = shippingAddress.getAddress1();
 		String city = shippingAddress.getCity();
 		String state = shippingAddress.getState();
 		String zip = shippingAddress.getZip();
@@ -145,7 +147,135 @@ public class OrderController {
 		return doSubmitCart(order,request);
 		
 	}
+	*/
+		String addr1Message = myProps.getProperty("NotEmpty.order.address1");
+		 logger.debug("addr1Message - "+addr1Message);
+		 //logger.debug("result.hasErrors() = "+result.hasErrors());
+		 
+		if(shippingAddress != null) {
+		    String address1=shippingAddress.getAddress1();
+		    logger.info("Address1 name is :- "+ address1);
+		 if(address1.equals("")){
+			model.addAttribute("addr1Message", addr1Message);
+			//return "register";
+			order.setHasErrors(true);
+		}
+		
+		String address2=order.getShippingAddress().getAddress2();
+		logger.info("Address2 name is :- "+ address2);
+		if(address2.equals("")){
+			model.addAttribute("ad2tmessage", "Address name must be filled");
+			//return "register";
+			order.setHasErrors(true);
+		}
+		
+		
+		Pattern cp = Pattern.compile("[a-zA-Z]*");
+		Matcher cm = cp.matcher(order.getShippingAddress().getCity());
+		boolean cityMatchFound = cm.matches();
+		if (!cityMatchFound) {
+			String cityMessage = myProps.getProperty("Pattern.order.city");
+			model.addAttribute("cityMessage", cityMessage);
+			order.setHasErrors(true);
+       }
+		String cityMessage = myProps.getProperty("NotEmpty.order.city");
+		String city=order.getShippingAddress().getCity();
+		
+	   logger.info("City name is :- "+ city);
+		if(city.equals("")){
+			model.addAttribute("cityMessage", cityMessage);
+			order.setHasErrors(true);
+		}
+		
+		
+		Pattern sp = Pattern.compile("[a-zA-Z]*");
+		Matcher sm = sp.matcher(order.getShippingAddress().getState());
+		boolean stateMatchFound = sm.matches();
+		if (!stateMatchFound) {
+			String stateMessage = myProps.getProperty("Pattern.order.state");
+			model.addAttribute("stateMessage", stateMessage);
+			order.setHasErrors(true);
+       }
+		
+		String stateMessage = myProps.getProperty("NotEmpty.order.state");
+		String state=order.getShippingAddress().getState();
+		logger.info("State name is :- "+ state);
+		if(state.equals("")){
+			model.addAttribute("stateMessage",stateMessage);
+			order.setHasErrors(true);
+		}
+		
+		
+		Pattern zp = Pattern.compile("^[1-9]*[0-9][0-9]*$");
+		Matcher zm = zp.matcher(order.getShippingAddress().getZip());
+		boolean zipmatch = zm.matches();
+		if (!zipmatch) {
+			String zipMessage = myProps.getProperty("Pattern.order.zip");
+			model.addAttribute("zipMessage", zipMessage);
+			order.setHasErrors(true);
+		}
+		String zipMessage = myProps.getProperty("NotEmpty.order.zip");
+		String zip=order.getShippingAddress().getZip();
+		
+		logger.info("Zip name is :- "+ zip);
+		if(zip.equals("")){
+			model.addAttribute("zipMessage",zipMessage);
+			order.setHasErrors(true);
+		}
+		
+		
+		Pattern contp = Pattern.compile("[a-zA-Z]*");
+		Matcher contm = contp.matcher(order.getShippingAddress().getCountry());
+		boolean countryMatchFound = contm.matches();
+		if (!countryMatchFound) {
+			String countryMessage = myProps.getProperty("Pattern.order.country");
+			model.addAttribute("countryMessage", countryMessage);
+			order.setHasErrors(true);
+		}
+		String countryMessage = myProps.getProperty("NotEmpty.order.country");
+		String country=order.getShippingAddress().getCountry();
+		logger.info("country name is :- "+ country);
+		if(country.equals("")){
+			model.addAttribute("countryMessage", countryMessage);
+			order.setHasErrors(true);
+		}
+		
+		
+		Pattern mp = Pattern.compile("^[7-9][0-9]{9}$");
+		Matcher mm = mp.matcher(order.getShippingAddress().getPhone());
+		boolean phoneMatchFound = mm.matches();
+		if (!phoneMatchFound) {
+			String phoneMessage = myProps.getProperty("Pattern.order.phone");
+			model.addAttribute("phoneMessage", phoneMessage);
+			order.setHasErrors(true);
+		}
+		String phoneMessage = myProps.getProperty("NotEmpty.order.phone");
+		String phone=order.getShippingAddress().getPhone();
+		logger.info("State name is :- "+ phone);
+		if(phone.equals("")){
+			model.addAttribute("phoneMessage", phoneMessage);
+			order.setHasErrors(true);
+		}
+		
+		if(order.isHasErrors()||result.hasErrors()){
+			logger.info("Not able to register as resut has errors.......");
+			order.setHasErrors(true);
+			return "viewCart";
+		  }
+		}
+		
 	
+	
+	logger.debug("Shipping Address - "+order.getShippingAddress());
+	
+	return doSubmitCart(order,request);
+	
+}
+
+		
+		
+		
+		
 	@RequestMapping(value="/backtoproducts", method = RequestMethod.POST)
 	public String doBack(HttpServletRequest request) {
 		logger.debug("Inside OrderController::doBack method...");
