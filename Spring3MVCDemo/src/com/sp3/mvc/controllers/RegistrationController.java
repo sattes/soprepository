@@ -4,6 +4,8 @@ import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -103,13 +105,143 @@ public class RegistrationController {
 	public String register(@Valid Customer customer, BindingResult result, Model model) throws SQLException, ClassNotFoundException {
 		logger.debug("Inside register method...");
 		
+		 Address customerAddress=customer.getCustomerAddress();
+		 String addr1Message = myProps.getProperty("NotEmpty.customer.address1");
+		 logger.debug("addr1Message - "+addr1Message);
+		 //logger.debug("result.hasErrors() = "+result.hasErrors());
+		 
+		if(customerAddress != null) {
+		    String address1=customerAddress.getAddress1();
+		    logger.info("Address1 name is :- "+ address1);
+		 if(address1.equals("")){
+			model.addAttribute("addr1Message", addr1Message);
+			//return "register";
+			customer.setHasErrors(true);
+		}
+		
+		/*String address2=customer.getCustomerAddress().getAddress2();
+		logger.info("Address2 name is :- "+ address2);
+		if(address2.equals("")){
+			model.addAttribute("ad2tmessage", "Address name must be filled");
+			//return "register";
+		}*/
+		
+		
+		Pattern cp = Pattern.compile("[a-zA-Z]*");
+		Matcher cm = cp.matcher(customer.getCustomerAddress().getCity());
+		boolean cityMatchFound = cm.matches();
+		if (!cityMatchFound) {
+			String cityMessage = myProps.getProperty("Pattern.customer.city");
+			model.addAttribute("cityMessage", cityMessage);
+			customer.setHasErrors(true);
+        }
+		String cityMessage = myProps.getProperty("NotEmpty.customer.city");
+		String city=customer.getCustomerAddress().getCity();
+		
+	   logger.info("City name is :- "+ city);
+		if(city.equals("")){
+			
+			model.addAttribute("cityMessage", cityMessage);
+			customer.setHasErrors(true);
+			//return "register";
+		}
+			String password=customer.getPassword();
+		logger.info("Password is :- "+password);
+		
+		Pattern sp = Pattern.compile("[a-zA-Z]*");
+		Matcher sm = sp.matcher(customer.getCustomerAddress().getState());
+		boolean stateMatchFound = sm.matches();
+		if (!stateMatchFound) {
+			String stateMessage = myProps.getProperty("Pattern.customer.state");
+			model.addAttribute("stateMessage", stateMessage);
+			customer.setHasErrors(true);
+        }
+		
+		String stateMessage = myProps.getProperty("NotEmpty.customer.state");
+		String state=customer.getCustomerAddress().getState();
+		logger.info("State name is :- "+ state);
+		if(state.equals("")){
+			model.addAttribute("stateMessage",stateMessage);
+			customer.setHasErrors(true);
+		}
+		
+		
+		Pattern zp = Pattern.compile("^[1-9]*[0-9][0-9]*$");
+		Matcher zm = zp.matcher(customer.getCustomerAddress().getZip());
+		boolean zipmatch = zm.matches();
+		if (!zipmatch) {
+			String zipMessage = myProps.getProperty("Pattern.customer.zip");
+			model.addAttribute("zipMessage", zipMessage);
+			customer.setHasErrors(true);
+		}
+		String zipMessage = myProps.getProperty("NotEmpty.customer.zip");
+		String zip=customer.getCustomerAddress().getZip();
+		
+		logger.info("Zip name is :- "+ zip);
+		if(zip.equals("")){
+			model.addAttribute("zipMessage",zipMessage);
+			customer.setHasErrors(true);
+		}
+		
+		
+		Pattern contp = Pattern.compile("[a-zA-Z]*");
+		Matcher contm = contp.matcher(customer.getCustomerAddress().getCountry());
+		boolean countryMatchFound = contm.matches();
+		if (!countryMatchFound) {
+			String countryMessage = myProps.getProperty("Pattern.customer.country");
+			model.addAttribute("countryMessage", countryMessage);
+			customer.setHasErrors(true);
+		}
+		String countryMessage = myProps.getProperty("NotEmpty.customer.country");
+		String country=customer.getCustomerAddress().getCountry();
+		logger.info("country name is :- "+ country);
+		if(country.equals("")){
+			model.addAttribute("countryMessage", countryMessage);
+			customer.setHasErrors(true);
+		}
+		
+		
+		Pattern mp = Pattern.compile("^[7-9][0-9]{9}$");
+		Matcher mm = mp.matcher(customer.getCustomerAddress().getPhone());
+		boolean phoneMatchFound = mm.matches();
+		if (!phoneMatchFound) {
+			String phoneMessage = myProps.getProperty("Pattern.customer.phone");
+			model.addAttribute("phoneMessage", phoneMessage);
+			customer.setHasErrors(true);
+		}
+		String phoneMessage = myProps.getProperty("NotEmpty.customer.phone");
+		String phone=customer.getCustomerAddress().getPhone();
+		logger.info("State name is :- "+ phone);
+		if(phone.equals("")){
+			model.addAttribute("phoneMessage", phoneMessage);
+			customer.setHasErrors(true);
+			
+		}
+		
+		if(customer.isHasErrors()||result.hasErrors()){
+			logger.info("Not able to register as resut has errors.......");
+			return "register";
+		  }
+		}
+		
+		//customer.setRoleId(this.getRoleId());
+		//customer.setRoleName(this.getRoleName());
+		logger.info("Registering the user:-  "+customer.getUserName()+ " with password:- "+ customer.getPassword());
+		return doRegister(customer, model);
+		
+	}
+	
+		
+		
+		
+		/*
 		if (result.hasErrors()) {
 			return "register";
 		}
 		
 		return doRegister(customer, model);
 		
-	}
+	}*/
 	
 	private String doRegister(Customer customer, Model model) throws SQLException, ClassNotFoundException {
 		Integer addrId=0; 

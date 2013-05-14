@@ -15,7 +15,7 @@ public class DBUtils {
 		try {
 			Class.forName("com.vmware.sqlfire.jdbc.ClientDriver");
 			//conn = DriverManager.getConnection("jdbc:sqlfire://INGSSATTESL2C:1528/"); //Mine  INGSSATTESL2C
-			conn = DriverManager.getConnection("jdbc:sqlfire://localhost:1527/"); //Sreedhar
+			conn = DriverManager.getConnection("jdbc:sqlfire://10.30.135.103:1528/"); //Sreedhar
 			//conn = DriverManager.getConnection("jdbc:sqlfire://101.63.242.79:1527/");
 			//conn = DriverManager.getConnection("jdbc:sqlfire://10.30.135.103:1528/"); //karuna
 			//conn = DriverManager.getConnection("jdbc:sqlfire://10.30.135.32:1532/"); //kiran

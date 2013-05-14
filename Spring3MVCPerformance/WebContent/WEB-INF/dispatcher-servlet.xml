@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+	
+	<!-- Enables controllers mapped with @RequestMapping annotations, formatting annotations @NumberFormat @DateTimeFormat, and JSR 303 style validation -->
+	<mvc:annotation-driven/>
+	
+	<mvc:default-servlet-handler />
+	
+	<!-- Scans for application @Components to deploy -->
+	<context:component-scan base-package="com.sp3.mvc" />
+	
+	<bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver" >
+        <property name="prefix">
+            <value>/WEB-INF/jsp/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+    
+    <bean id="myProps" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	  <property name="location" value="/WEB-INF/properties/myprops.properties"/>
+	</bean>
+	
+	<bean id="jaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="classesToBeBound">
+            <list>
+                <value>com.sp3.mvc.jaxb.Address</value>
+                <value>com.sp3.mvc.jaxb.Cardinfo</value>
+                <value>com.sp3.mvc.jaxb.Category</value>
+                <value>com.sp3.mvc.jaxb.Customer</value>
+                <value>com.sp3.mvc.jaxb.Directdebit</value>
+                <value>com.sp3.mvc.jaxb.Discount</value>
+                <value>com.sp3.mvc.jaxb.Order</value>
+                <value>com.sp3.mvc.jaxb.Orderitem</value>
+                <value>com.sp3.mvc.jaxb.Payment</value>
+                <value>com.sp3.mvc.jaxb.Product</value>
+                <value>com.sp3.mvc.jaxb.Transaction</value>
+            </list>
+        </property>
+       <!--  <property name="marshallerProperties">
+	      <map>
+	        <entry key="com.sun.xml.bind.namespacePrefixMapper" value-ref="namespacePrefixMapper" />
+	      </map>
+	    </property> -->
+        <property name="schema" value="/WEB-INF/xsd/Order.xsd"/>
+    </bean>
+    
+    <!-- <bean id="namespacePrefixMapper" class="com.sp3.mvc.helper.ConfigurableNamespacePrefixMapperImpl">
+		<property name="mapping">
+			<map>
+				<entry>
+					<key>
+						<value>Product</value>
+					</key>
+					<value>p</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Customer</value>
+					</key>
+					<value>c</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Order</value>
+					</key>
+					<value>o</value>
+				</entry>
+				<entry>
+					<key>
+						<value>Address</value>
+					</key>
+					<value>a</value>
+				</entry>
+			</map>
+		</property>
+	</bean> -->
+	<!-- For Performance Testing -->
+	<bean id="helloController" class="com.sp3.mvc.controllers.HelloController">
+        <property name="marshaller" ref="jaxb2Marshaller" />
+        <property name="unmarshaller" ref="jaxb2Marshaller" />
+    </bean>
+    
+    <bean id="orderController" class="com.sp3.mvc.controllers.OrderController">
+        <property name="marshaller" ref="jaxb2Marshaller" />
+        <property name="unmarshaller" ref="jaxb2Marshaller" />
+    </bean>
+    
+    <bean id="paymentController" class="com.sp3.mvc.controllers.PaymentController">
+        <property name="marshaller" ref="jaxb2Marshaller" />
+        <property name="unmarshaller" ref="jaxb2Marshaller" />
+    </bean>
+    
+	<bean id="custDao" class="com.sp3.mvc.dao.CustomerDao">
+		<constructor-arg >
+			<ref bean="myProps"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="prodDao" class="com.sp3.mvc.dao.ProductDao">
+		<constructor-arg >
+			<ref bean="myProps"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="addrDao" class="com.sp3.mvc.dao.AddressDao">
+		<constructor-arg >
+			<ref bean="myProps"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="ordDao" class="com.sp3.mvc.dao.OrderDao">
+		<constructor-arg >
+			<ref bean="myProps"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="itemDao" class="com.sp3.mvc.dao.OrderItemDao">
+		<constructor-arg >
+			<ref bean="myProps"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="discDao" class="com.sp3.mvc.dao.DiscountDao">
+		<constructor-arg >
+			<ref bean="myProps"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="catDao" class="com.sp3.mvc.dao.CategoryDao">
+		<constructor-arg >
+			<ref bean="myProps"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="payDao" class="com.sp3.mvc.dao.PaymentDao">
+		<constructor-arg >
+			<ref bean="myProps"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="cardDao" class="com.sp3.mvc.dao.CardInfoDao">
+		<constructor-arg >
+			<ref bean="myProps"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="txnDao" class="com.sp3.mvc.dao.TransactionDao">
+		<constructor-arg >
+			<ref bean="myProps"/>
+		</constructor-arg>
+	</bean>
+	
+    <!-- <bean name="/welcome.htm" class="com.sp3.mvc.controllers.HelloWorldController" >
+        <property name="message" value="Hello World!" />
+    </bean> -->
+    
+</beans>
