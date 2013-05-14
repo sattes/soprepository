@@ -14,7 +14,7 @@ public class SopAspect {
 	
 	private final Log log = LogFactory.getLog(this.getClass());
 	
-	@Around("execution(*com.sp3.mvc..*.*(..))")
+	//@Around("execution(*com.sp3.mvc..(..))")
 	public Object logTimeMethod(ProceedingJoinPoint joinPoint) throws Throwable {
 
 		StopWatch stopWatch = new StopWatch();

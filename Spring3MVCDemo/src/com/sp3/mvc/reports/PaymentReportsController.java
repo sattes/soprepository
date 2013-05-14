@@ -100,5 +100,23 @@ public class PaymentReportsController {
 		logger.debug("PaymentReportsController::getPayments End...");
 		return "payment_reports";
 	}
+	
+	@RequestMapping(value="/gettransactions", method = RequestMethod.GET)
+	public String getTransactionInfo(Model model, HttpServletRequest request) throws SQLException, ClassNotFoundException {
+		logger.debug("PaymentReportsController::getTransactionInfo Start...");
+		logger.debug("request param paymentid = "+request.getParameter("paymentid"));
+		
+		logger.debug("PaymentReportsController::getTransactionInfo End...");
+		return "transaction_info";
+	}
+	
+	@RequestMapping(value="/backtopaymentreport", method = RequestMethod.POST)
+	public String backToPaymentReport(@ModelAttribute("paymentReport")PaymentReport paymentReport, Model model, HttpServletRequest request) throws SQLException, ClassNotFoundException {
+		logger.debug("PaymentReportsController::backToPaymentReport Start...");
+		logger.debug("request param txnid = "+request.getParameter("txnid"));
+		
+		logger.debug("PaymentReportsController::backToPaymentReport End...");
+		return "payment_reports";
+	}
 
 }
