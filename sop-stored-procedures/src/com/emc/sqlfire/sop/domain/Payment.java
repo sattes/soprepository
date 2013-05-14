@@ -13,34 +13,7 @@ public class Payment implements Serializable {
 	private String paymentStatus;
 	private Date paymentDate;
 	
-	private String transactionId;
-	public String getTransactionId() {
-		return transactionId;
-	}
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
-	}
-	public Double getTransAmount() {
-		return transAmount;
-	}
-	public void setTransAmount(Double transAmount) {
-		this.transAmount = transAmount;
-	}
-	public String getTransType() {
-		return transType;
-	}
-	public void setTransType(String transType) {
-		this.transType = transType;
-	}
-	public Date getTransDate() {
-		return transDate;
-	}
-	public void setTransDate(Date transDate) {
-		this.transDate = transDate;
-	}
-	private Double transAmount;
-	private String transType;
-	private Date transDate;
+	
 
 	
 	public String getPaymentId() {
