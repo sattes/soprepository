@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sp3.mvc.dao.AddressDao;
-import com.sp3.mvc.dao.CustomerDao;
+import com.sop.dao.AddressDao;
+import com.sop.dao.CustomerDao;
 import com.sp3.mvc.dao.DBUtils;
 import com.sp3.mvc.enums.AddressTypeEnum;
 import com.sp3.mvc.enums.CustomerStatusEnum;
+import com.sp3.mvc.helper.AMQPMessageHelper;
+import com.sp3.mvc.helper.JaxbHelper;
 import com.sp3.mvc.helper.MessageHelper;
 import com.sp3.mvc.models.Address;
 import com.sp3.mvc.models.Customer;
@@ -37,8 +39,8 @@ public class RegistrationController {
 	
 	private static Logger logger = Logger.getLogger(RegistrationController.class);
 	
-	/*@Resource(name = "myProps")
-	private Properties myProps;*/
+	@Resource(name = "myProps")
+	private Properties myProps;
 	
 	@Resource(name = "custDao")
 	private CustomerDao custDao;
@@ -147,9 +149,7 @@ public class RegistrationController {
 		logger.debug("Last Name = "+customer.getLname());
 		logger.debug("Gender = "+customer.getGender());
 		logger.debug("Type of Address = "+customer.getTypeOfAddress());
-		logger.debug("Address = "+customer.getAddress());
 		logger.debug("email = "+customer.getEmail());
-		logger.debug("Country = "+customer.getCountry());
 		logger.debug("User Name = "+customer.getUserName());
 		logger.debug("Password = "+customer.getPassword());
 		logger.debug("Customer Address "+customer.getCustomerAddress().getAddress1());
@@ -162,9 +162,7 @@ public class RegistrationController {
 		model.addAttribute("lname", customer.getLname());
 		model.addAttribute("gender", customer.getGender());
 		model.addAttribute("typeOfAddress", customer.getTypeOfAddress());
-		model.addAttribute("addr", customer.getAddress());
 		model.addAttribute("email", customer.getEmail());
-		model.addAttribute("country", customer.getCountry());
 		model.addAttribute("uname", customer.getUserName());
 		
 		customer.setStatus(CustomerStatusEnum.ACTIVE);
@@ -209,16 +207,18 @@ public class RegistrationController {
 		// Enable this code for Local Data Base - End
 		
 		//Enable this code for sending Address xml - Start
-		com.sp3.mvc.jaxb.Address jaxbCustAddr = getJaxbAddress(customerAddr, customer);
-		String customerAddressStr = getMarshalledString(jaxbCustAddr);
-		customerAddressStr = customerAddressStr.replaceAll("ns2:", "");
-		customerAddressStr = customerAddressStr.replaceAll("ns3:", "");
-		customerAddressStr = customerAddressStr.replaceAll("ns4:", "");
-		customerAddressStr = customerAddressStr.replaceAll("ns5:", "");
-		logger.debug("customerAddressStr:" + customerAddressStr);
+		com.sp3.mvc.jaxb.Address jaxbCustAddr = JaxbHelper.getJaxbAddress(customerAddr, customer);
+		String textMessage = getMarshalledString(jaxbCustAddr);
+		textMessage = textMessage.replaceAll("ns2:", "");
+		textMessage = textMessage.replaceAll("ns3:", "");
+		textMessage = textMessage.replaceAll("ns4:", "");
+		textMessage = textMessage.replaceAll("ns5:", "");
 		
-		MessageHelper helper = new MessageHelper();
-		helper.sendMessage("sopCustInbound", customerAddressStr);
+		String exchangeName = myProps.getProperty("exchange.name");
+		String qName = myProps.getProperty("registration.qname");
+		String ipAddress = myProps.getProperty("ip.address");
+		AMQPMessageHelper helper = new AMQPMessageHelper();
+		helper.sendMessage(textMessage,exchangeName, qName,ipAddress);
 		//Enable this code for sending Address xml - End
 		
 		logger.debug("Registration record inserted successfully...");

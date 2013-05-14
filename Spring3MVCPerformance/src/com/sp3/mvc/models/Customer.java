@@ -2,27 +2,62 @@ package com.sp3.mvc.models;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.sp3.mvc.enums.CustomerStatusEnum;
 import com.sp3.mvc.enums.CustomerTypeEnum;
 
 public class Customer implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	
+	@NotEmpty
 	private String userName;
+	@NotEmpty
     private String password;
+	@NotEmpty
+    @Size(min = 1, max = 10)
+	@Pattern(regexp = "[a-zA-Z]*")
     private String fname;
+    @NotEmpty
+    @Size(min = 1, max = 10)
+	@Pattern(regexp = "[a-zA-Z]*")
     private String lname;
+    @NotEmpty
     private String gender;
-    private String country;
-    private String address;
-    private String cb;
+    /*@NotEmpty(message = "Country must not be blank.")
+    private String country;*/
+    //private String cb;
     private String typeOfAddress;
+    
+    @NotEmpty(message = "E-mail must not be blank.")
+    @Email
     private String email;
+    
+    private Integer enabled;
+    private Integer roleId;
+    
     private CustomerTypeEnum custType;
     private CustomerStatusEnum status;
     
     private Address customerAddress;
-    //private Address shippingAddress;
+    
+    private CustomerRole role;
+    
+    
+    private boolean hasErrors;
+    public boolean isHasErrors() {
+		return hasErrors;
+	}
+	public void setHasErrors(boolean hasErrors) {
+		this.hasErrors = hasErrors;
+	}
+
+    
     
 	public String getUserName() {
 		return userName;
@@ -54,24 +89,19 @@ public class Customer implements Serializable{
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public String getCountry() {
+	/*public String getCountry() {
 		return country;
 	}
 	public void setCountry(String country) {
 		this.country = country;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public String getCb() {
+	}*/
+	
+	/*public String getCb() {
 		return cb;
 	}
 	public void setCb(String cb) {
 		this.cb = cb;
-	}
+	}*/
 	public String getTypeOfAddress() {
 		return typeOfAddress;
 	}
@@ -102,10 +132,23 @@ public class Customer implements Serializable{
 	public void setCustomerAddress(Address customerAddress) {
 		this.customerAddress = customerAddress;
 	}
-	/*public Address getShippingAddress() {
-		return shippingAddress;
+	public Integer getEnabled() {
+		return enabled;
 	}
-	public void setShippingAddress(Address shippingAddress) {
-		this.shippingAddress = shippingAddress;
-	}*/
+	public void setEnabled(Integer enabled) {
+		this.enabled = enabled;
+	}
+	public CustomerRole getRole() {
+		return role;
+	}
+	public void setRole(CustomerRole role) {
+		this.role = role;
+	}
+	public Integer getRoleId() {
+		return roleId;
+	}
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+	
 }

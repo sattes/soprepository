@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -20,13 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sp3.mvc.dao.AddressDao;
-import com.sp3.mvc.dao.CardInfoDao;
-import com.sp3.mvc.dao.CustomerDao;
-import com.sp3.mvc.dao.OrderDao;
-import com.sp3.mvc.dao.PaymentDao;
-import com.sp3.mvc.dao.TransactionDao;
+import com.sop.dao.AddressDao;
+import com.sop.dao.CardInfoDao;
+import com.sop.dao.CustomerDao;
+import com.sop.dao.OrderDao;
+import com.sop.dao.PaymentDao;
+import com.sop.dao.TransactionDao;
 import com.sp3.mvc.enums.PaymentStatusEnum;
+import com.sp3.mvc.helper.AMQPMessageHelper;
 import com.sp3.mvc.helper.DateUtils;
 import com.sp3.mvc.helper.JaxbHelper;
 import com.sp3.mvc.helper.MessageHelper;
@@ -39,6 +41,9 @@ import com.sp3.mvc.models.Payment;
 public class PaymentController {
 	
 	private static Logger logger = Logger.getLogger(PaymentController.class);
+	
+	@Resource(name = "myProps")
+	private Properties myProps;
 	
 	@Resource(name = "ordDao")
 	private OrderDao ordDao;
@@ -129,9 +134,12 @@ public class PaymentController {
 		}
 		
 		String textMessage = getMarshalledString(jaxbPayment);
-		logger.debug("Message:" + textMessage);
-		MessageHelper msgHelper = new MessageHelper();
-		msgHelper.sendMessage("sopPaymentInboundQueue", textMessage);
+		
+		String exchangeName = myProps.getProperty("exchange.name");
+		String qName = myProps.getProperty("payment.qname");
+		String ipAddress = myProps.getProperty("ip.address");
+		AMQPMessageHelper helper = new AMQPMessageHelper();
+		helper.sendMessage(textMessage,exchangeName, qName,ipAddress);
 		
 		logger.debug("PaymentController::makePayment End...");
 		return "visa_ccpay";

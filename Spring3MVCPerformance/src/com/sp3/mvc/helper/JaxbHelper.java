@@ -13,6 +13,12 @@ import com.sp3.mvc.models.Payment;
 
 public class JaxbHelper {
 	
+	public static com.sp3.mvc.jaxb.Address getJaxbAddress(Address address, Customer customer) {
+		com.sp3.mvc.jaxb.Address jaxbAddress = getJaxbAddress(address);
+		jaxbAddress.setCustomer(getJaxbCustomer(customer));
+		return jaxbAddress;
+	}
+	
 	public static com.sp3.mvc.jaxb.Address getJaxbAddress(Address address) {
 		com.sp3.mvc.jaxb.Address jaxbAddress = new com.sp3.mvc.jaxb.Address();
 		jaxbAddress.setAddr1(address.getAddress1());

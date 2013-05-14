@@ -25,15 +25,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.sp3.mvc.dao.AddressDao;
-import com.sp3.mvc.dao.CategoryDao;
-import com.sp3.mvc.dao.CustomerDao;
-import com.sp3.mvc.dao.DiscountDao;
-import com.sp3.mvc.dao.OrderDao;
-import com.sp3.mvc.dao.OrderItemDao;
-import com.sp3.mvc.dao.ProductDao;
+import com.sop.dao.AddressDao;
+import com.sop.dao.CategoryDao;
+import com.sop.dao.CustomerDao;
+import com.sop.dao.DiscountDao;
+import com.sop.dao.OrderDao;
+import com.sop.dao.OrderItemDao;
+import com.sop.dao.ProductDao;
 import com.sp3.mvc.enums.AddressTypeEnum;
 import com.sp3.mvc.enums.OrderStatusEnum;
+import com.sp3.mvc.helper.AMQPMessageHelper;
 import com.sp3.mvc.helper.DateUtils;
 import com.sp3.mvc.helper.MessageHelper;
 import com.sp3.mvc.models.Address;
@@ -49,6 +50,9 @@ import com.sp3.mvc.models.Product;
 public class OrderController {
 	
 	private static Logger logger = Logger.getLogger(OrderController.class);
+	
+	@Resource(name = "myProps")
+	private Properties myProps;
 	
 	@Resource(name = "ordDao")
 	private OrderDao ordDao;
@@ -109,7 +113,6 @@ public class OrderController {
 		List<Product> selectedProductList = (ArrayList<Product>)request.getSession().getAttribute("selectedProducts");
 		Customer login = (Customer)request.getSession().getAttribute("login");
 		
-		logger.debug("getCountry "+login.getCountry());
 		logger.debug("getEmail "+login.getEmail());
 		logger.debug("getFname "+login.getFname());
 		logger.debug("getCustType "+login.getCustType());
@@ -117,13 +120,14 @@ public class OrderController {
 		
 		Integer itemId = itemDao.getMaxItemId();
 		Integer addrId = addrDao.getMaxAddressId();
-		Integer orderId = ordDao.getMaxOrderId();
-		String maxOrderId = null;
+		String orderId = ordDao.getMaxOrderId();
 		
-		if(orderId == null) {
-			maxOrderId = "ORDER-100";
+		if(orderId == null || orderId.equals("")) {
+			orderId = "ORDER-100";
 		} else {
-			maxOrderId = "ORDER-"+(orderId+1);
+			String[] arr = orderId.split("-");
+			int maxId = Integer.parseInt(arr[1]);
+			orderId = "ORDER-"+(maxId+1);
 		}
 		logger.debug("itemId - "+itemId);
 		logger.debug("addrId - "+addrId);
@@ -133,7 +137,7 @@ public class OrderController {
 		
 		order.setAddressId(addr.getAddressId());
 		order.setOrderDate(new Date());
-		order.setOrderId(maxOrderId);
+		order.setOrderId(orderId);
 		order.setStatus(OrderStatusEnum.ORDERED);
 		order.setUserId(login.getUserName());
 		order.setTotalPrice(0.0d);
@@ -220,12 +224,18 @@ public class OrderController {
 		textMessage = textMessage.replaceAll("ns3:", "");
 		textMessage = textMessage.replaceAll("ns4:", "");
 		textMessage = textMessage.replaceAll("ns5:", "");
+		textMessage = textMessage.replaceAll("ns6:", "");
+		textMessage = textMessage.replaceAll("ns7:", "");
+		textMessage = textMessage.replaceAll("ns8:", "");
 		logger.debug("Message:" + textMessage);
 		
-		MessageHelper msgHelper = new MessageHelper();
-		msgHelper.sendMessage("sopInboundQueue", textMessage);
+		String exchangeName = myProps.getProperty("exchange.name");
+		String qName = myProps.getProperty("order.qname");
+		String ipAddress = myProps.getProperty("ip.address");
+		AMQPMessageHelper helper = new AMQPMessageHelper();
+		helper.sendMessage(textMessage,exchangeName, qName,ipAddress);
 		
-		request.getSession().setAttribute("orderId", maxOrderId);
+		request.getSession().setAttribute("orderId", orderId);
 		return "orderInfo";
 	}
 	
