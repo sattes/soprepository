@@ -1,118 +1,54 @@
-<%-- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>SalesOrderProcessingSystem-Login</title>
-<link rel="stylesheet" type="text/css" href="/Spring3MVCDemo/css/sopstyles.css"/>
-<!-- <script src="http://code.jquery.com/jquery-latest.js"></script>
-	<script type="text/javascript">
-         $(document).ready(function () {
-        	 $('#mainheader').css({"color":"green"});
-        	 $('#mainheader').css({"background-color":"yellow"});
-        	 $('#mainheader').css({"height":"25px"});
-        	 $('#mainheader').css({"width":"400px"});
-        	 $('#mainheader').css({"margin-left":"30px"});
-       });
-	</script> -->
-<script language="javascript">
-	function adjust(obj) {
-		if(obj.name == "Login") {
-			document.loginpage.action = "/Spring3MVCDemo/login.htm";
-			return true;
-		}
-		if(obj.name == "Back") {
-			document.loginpage.action = "/Spring3MVCDemo/backtoindex.htm";
-			return true;
-		}
-	}
+<META name="Author" content="Swapnil Gangrade" >
+<META name="Date" content="2013-05-05">
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Login Form</title>
+
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.2.min.js"></script>
+<link rel="stylesheet" href="/Spring3MVCDemo/css/style.css" type="text/css">
+<script type="text/javascript">
+$(function(){
+	$("#cerceve").hide().fadeIn(500);
+	$(".show").hide();
+	$(".close").click(function(){
+		$("#cerceve").hide(500);
+		$(".show").fadeIn(500);
+	});
+	$(".show").click(function(){
+		$("#cerceve").fadeIn(500);
+		$(".show").hide(500);
+	});
+});
 </script>
 </head>
-<body>
-	<form:form modelAttribute="login" action="" name="loginpage">
-		<table class="mainheader">
-			<thead>
-				<tr>
-					<th width="100%" align="center">SalesOrderProcessingSystem - Login</th>
-				</tr>
-			</thead>
-		</table>
-		<fieldset style="width: 375px;">
-		<legend>Login</legend>
-		<table>
-			<tbody>
-				<tr>
-					<td width="50%" align="center">User Name</td>
-					<td width="50%" align="center"><form:input path="userName" /><font color="red"> <form:errors
-								path="userName" /></font><br /></td>
-				</tr>
-				<tr>
-					<td width="50%" align="center">Password</td>
-					<td width="50%" align="center"><form:password path="password" /><font color="red">
-							<form:errors path="password" />
-					</font><br /></td>
-				</tr>
-				<tr></tr>
-				</tbody>
-			</table>
-			<table align="center">
-				<tr>
-					<td>
-						<input type="submit" class="button" value="Back" name="Back" onClick="adjust(this);"/>&nbsp;
-						<input type="submit" class="button" value="Login" name="Login" onClick="adjust(this);"/>
-					</td>
-				</tr>
-		</table>
-		</fieldset>
-		<!-- <img src="\images\sqlfire.jpg" alt="sqlfimage" width="200" height="100" id="sqlfimage" mapfile="\images\sqlfire.jpg"/>  -->
-	</form:form>
-</body>
-</html> --%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<html>
-<head>
-<title>Login Page</title>
-<link rel="stylesheet" type="text/css" href="/Spring3MVCDemo/css/sopstyles.css"/>
-</head>
-<body onload="document.loginform.username.focus();">
-	<form name="loginform" action="<c:url value='j_spring_security_check' />"
-		method="POST">
- 		<table class="mainheader">
-			<thead>
-				<tr>
-					<th width="100%" align="center">SalesOrderProcessingSystem - Login</th>
-				</tr>
-			</thead>
-		</table>
-		<c:if test="${not empty param.login_error}">
-			<div class="errorblock">
-				Your login attempt was not successful, try again.<br /> Caused : ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
-			</div>
-		</c:if>
-		<fieldset style="width: 375px;">
-		<legend>Login</legend>
-			<table>
-				<tr>
-					<td>User:</td>
-					<td><input type="text" name="username" value="">
-					</td>
-				</tr>
-				<tr>
-					<td>Password:</td>
-					<td><input type="password" name="password" />
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<input name="submit" type="submit"	value="Submit" class="button"/>&nbsp;
-						<input name="reset" type="reset" value="Reset" class="button"/>
-					</td>
-				</tr>
-			</table>
-		</fieldset>
-	</form>
+<body onload='document.f.username.focus();'>
+<div class="show"></div>
+<div id="cerceve">
+<div class="header">
+  <div class="text" style="float:left">Login Form Online Processing</div><div class="close" style="float:right;margin-right:20px;cursor:pointer;">x</div></div>
+<div class="formbody">
+<form class="box login" name='f' action="<c:url value='j_spring_security_check' />"
+		method="post" >
+<input type="text" name="username" required="required" placeholder="Username" class="text" style="background:url(/Spring3MVCDemo/images/username.png) no-repeat;" />
+<input type="password" name="password" required="required" placeholder="Password" class="text" style="background:url(/Spring3MVCDemo/images/password.png) no-repeat;" />
+<input type="submit" value="Sign In" class="submit" style="background:url(/Spring3MVCDemo/images/login.png) no-repeat;" />
+<a href="#">Lost your password?</a>&nbsp;&nbsp;<a href="/Spring3MVCDemo/gotoregister.htm?userType=customer">Singn Up</a>
+</form>
+<c:if test="${not empty param.login_error}">
+<label style="text-align:center;color:#F00"> 
+Login Failed because ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+</label>
+</c:if>
+</div>
+</div>
 </body>
 </html>
