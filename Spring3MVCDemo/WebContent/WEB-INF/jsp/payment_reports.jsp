@@ -116,15 +116,16 @@
 				<th>PaymentStatus</th>
 				<th>PaymentDate</th>
 				<th>PaymentAmount</th>
+				<th>TransactionId</th>
 			</tr>
 			<c:forEach var="report" items="${paymentReports}">
 				<tr>
 			      <td>${report.orderId}</td>
 			      <td>${report.paymentId}</td>
-			      <td>${report.status}</td>
-			      <td>${report.orderDate}</td>
-			      <td>${report.totalPrice}</td>
-			      <td>${report.userId}</td>
+			      <td>${report.paymentStatus}</td>
+			      <td>${report.paymentDate}</td>
+			      <td>${report.paymentAmount}</td>
+			      <td>${report.transactionId}</td>
 			    </tr>
 			</c:forEach>  
 		</table>

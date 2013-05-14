@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.emc.sqlfire.sop.domain.Payment;
 import com.sp3.mvc.dao.DBUtils;
 import com.sp3.mvc.models.PaymentReport;
 
@@ -56,9 +57,9 @@ public class PaymentReportsController {
 		Connection connection = DBUtils.getConnection();
 		
 		StringBuffer sb = new StringBuffer();
-		sb.append("{call SOPV2.GET_ALL_ORDERS_FOR_PERIOD(?,?,?,?,?)  ON TABLE ")
+		sb.append("{call SOPV2.GET_PAYMENT_DETAILS(?,?,?,?,?)  ON TABLE ")
 			.append(myProps.getProperty("schemaName"))
-			.append("ORDERS");
+			.append("PAYMENT}");
 		CallableStatement stmt = connection.prepareCall(sb.toString());
 		
 		stmt.setString(1, paymentReport.getPaymentId());
@@ -83,26 +84,16 @@ public class PaymentReportsController {
 			stmt.setDate(5, new java.sql.Date(tocal.getTimeInMillis())); 
 		}
 		
-		//stmt.execute();
-		//ResultSet rs = stmt.getResultSet();
-		
-		List<com.sp3.mvc.models.Payment> paymentReports = new ArrayList<com.sp3.mvc.models.Payment>();
-		/*while (rs. next()) {
+		stmt.execute();
+		ResultSet rs = stmt.getResultSet();
+		List<Payment> paymentReports = new ArrayList<Payment>();
+		while (rs. next()) {
 			String colName = rs.getMetaData().getColumnName(1);
 			Object obj  = rs.getObject(colName);
-			List<Order> orders2 = (ArrayList<Order>)obj;
-			for(Order order : orders2){
-				com.sp3.mvc.models.Order ord = new com.sp3.mvc.models.Order();
-				ord.setAddressId(order.getAddrId());
-				ord.setOrderDate(order.getOrderDate());
-				ord.setOrderId(order.getOrderId());
-				ord.setStatus(OrderStatusEnum.getEnumByValue(order.getOrderStatus()));
-				ord.setTotalPrice(order.getTotalPrice());
-				ord.setUserId(order.getUserId());
-				orderReports.add(ord);
-			}
+			paymentReports = (ArrayList<Payment>)obj;
+			
 			break;
-		}*/
+		}
 		logger.debug("payments size - "+paymentReports.size());
 		
 		request.getSession().setAttribute("paymentReports", paymentReports);
