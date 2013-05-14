@@ -29,7 +29,7 @@ public class GetCardInfo {
 		String sql = null;
 		StringBuilder sb = new StringBuilder();
 		
-		sql = "SELECT cardnum, nameoncard, expdate, cardtype, cardgatewaytype FROM SOPV2.cardinfo WHERE transactionid = " + transactionId;
+		sql = "SELECT cardnum, nameoncard, expdate, cardtype, cardgatewaytype FROM SOPV2.cardinfo WHERE transactionid = ?";
 			
 		
 		System.out.println("SQL Query = "+sql);
@@ -38,6 +38,7 @@ public class GetCardInfo {
 			Connection conn = context.getConnection();
 			System.out.println("conn = "+conn);
 			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, transactionId);
 			stmt.execute();
 			ResultSet rs  = stmt.getResultSet();
 			

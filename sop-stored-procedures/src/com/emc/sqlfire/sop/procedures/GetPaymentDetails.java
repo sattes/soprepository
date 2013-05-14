@@ -67,9 +67,9 @@ public class GetPaymentDetails {
 			.append("'");
 		}
 		if(sb.length() == 0) {
-			sql = "SELECT * FROM SOPV2.PAYMENT P, SOPV2.SOPTRANSACTION T WHERE P.PAYMENTID = T.PAYMENTID";
+			sql = "SELECT * FROM SOPV2.PAYMENT";
 		} else {
-			sql = "SELECT * FROM SOPV2.PAYMENT P, SOPV2.SOPTRANSACTION T WHERE P.PAYMENTID = T.PAYMENTID AND "+sb.toString();
+			sql = "SELECT * FROM SOPV2.PAYMENT WHERE "+sb.toString();
 		}
 		System.out.println("SQL Query = "+sql);
 		
@@ -88,10 +88,7 @@ public class GetPaymentDetails {
 				payment.setPaymentAmount(rs.getDouble("TOTALAMOUNT"));
 				payment.setPaymentDate(rs.getDate("PAYMENTDATE"));
 				payment.setPaymentStatus(rs.getString("STATUS"));
-				payment.setTransactionId(rs.getString("TRANSACTIONID"));
-				payment.setTransAmount(rs.getDouble("TRANSAMOUNT"));
-				payment.setTransDate(rs.getDate("TRANSDATE"));
-				payment.setTransType(rs.getString("TRANSTYPE"));
+				
 				
 				payments.add(payment);
 			}

@@ -28,7 +28,7 @@ public class GetDebitDetails {
 		
 		String sql = null;
 		
-		sql = "SELECT accholdername, accnum, acctype, bankname, bankbranch, debtamount, debtdate, debtfrequency, debtstatus FROM SOPV2.directdebit WHERE transactionid = " + transactionId;
+		sql = "SELECT accholdername, accnum, acctype, bankname, bankbranch, debtamount, debtdate, debtfrequency, debtstatus FROM SOPV2.directdebit WHERE transactionid = ?";
 
 		System.out.println("SQL Query = "+sql);
 		
@@ -36,6 +36,7 @@ public class GetDebitDetails {
 			Connection conn = context.getConnection();
 			System.out.println("conn = "+conn);
 			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1, transactionId);
 			stmt.execute();
 			ResultSet rs  = stmt.getResultSet();
 			
