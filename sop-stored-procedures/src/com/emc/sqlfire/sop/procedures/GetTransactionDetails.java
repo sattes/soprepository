@@ -11,9 +11,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.emc.sqlfire.sop.domain.Order;
-import com.emc.sqlfire.sop.domain.Payment;
-import com.emc.sqlfire.sop.domain.SerializeResultSet;
 import com.emc.sqlfire.sop.domain.Transaction;
 import com.vmware.sqlfire.procedure.OutgoingResultSet;
 import com.vmware.sqlfire.procedure.ProcedureExecutionContext;
