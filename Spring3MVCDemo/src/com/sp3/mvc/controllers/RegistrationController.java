@@ -93,7 +93,7 @@ public class RegistrationController {
 	@RequestMapping(value="/gotoregister", method = RequestMethod.GET)
 	public String goToRegisterPage(@ModelAttribute("customer")Customer customer, Model model, HttpServletRequest request,
 			@RequestParam("userType") String userType ) {
-		logger.debug("Inside goToIndexPage method...");
+		logger.debug("Inside goToRegisterPage method...");
 		
 		logger.debug("userType = "+userType);
 		this.setUserType(userType);

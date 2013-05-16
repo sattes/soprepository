@@ -1,22 +1,23 @@
 package com.sp3.mvc.aop;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.stereotype.Component;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.util.StopWatch;
 
-@Component
 @Aspect
-public class SopAspect {
+public class LoggingAspect {
 	
-	private final Log log = LogFactory.getLog(this.getClass());
+	private static Logger log = Logger.getLogger(LoggingAspect.class);
 	
-	@Around("execution(* com.sp3.mvc.*.*(..))")
+	@Around("controllerBean() && methodPointcut() ")
 	public Object logTimeMethod(ProceedingJoinPoint joinPoint) throws Throwable {
-
+		log.debug("LoggingAspect::logTimeMethod start");
+		
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
 
@@ -43,7 +44,20 @@ public class SopAspect {
 		logMessage.append(stopWatch.getTotalTimeMillis());
 		logMessage.append(" ms");
 		log.info(logMessage.toString());
+		log.debug("LoggingAspect::logTimeMethod end");
 		return retVal;
 	}
+	
+	@Pointcut("within(@org.springframework.stereotype.Controller *)")
+    public void controllerBean() {}
+
+    @Pointcut("execution(* *(..))")
+    public void methodPointcut() {}
+
+    /*@AfterReturning("controllerBean() && methodPointcut() ")
+    public void afterMethodInControllerClass() {
+    	log.debug("after advice..");
+    }*/
+
 
 }
