@@ -1,0 +1,298 @@
+
+--create a schema
+create schema sopv2;
+--set schema to use
+set schema sopv2;
+
+drop table discount;
+
+drop table inventory;
+
+drop table orderitems;
+
+drop table product;
+
+drop table ordertrack;
+
+drop table category;
+
+drop table cardinfo;
+
+drop table directdebit;
+
+drop table soptransaction;
+
+drop table payment;
+
+drop table orders;
+
+drop table address;
+
+drop table customer;
+
+drop table customerroles;
+
+
+CREATE TABLE customerroles ( 
+ROLEID INT NOT NULL, 
+ROLEDESC VARCHAR(100) NOT NULL,
+ROLENAME varchar(45) NOT NULL,
+CONSTRAINT customer_Roles_PK PRIMARY KEY (ROLEID)
+)
+REPLICATE
+PERSISTENT
+
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table customer (
+userid varchar(20) not null,
+password varchar(10)  not null,
+enabled int NOT NULL,
+ROLEID INT not null,
+email varchar(50) not null,
+firstname varchar(30) not null,
+lastname varchar(30) not null,
+custtype varchar(10) not null,
+status varchar(10)  null,    
+constraint pk_customer primary key (userid),
+constraint fk_CUSTROLES_1 foreign key (ROLEID)
+references customerroles (ROLEID)
+)
+PARTITION BY column(userid)
+REDUNDANCY 1
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table address (
+addrid int not null,
+userid varchar(20) not null,
+addrtype varchar(20) not null,
+addr1 varchar(80) not null,
+addr2 varchar(40) null,
+city varchar(20) not  null,
+state varchar(20) not null,
+zip varchar(10) not null,
+country varchar(20) not null,
+phone varchar(20) not null,
+constraint pk_address primary key (addrid),
+constraint fk_address_1 foreign key (userid)
+references customer (userid)
+)
+PARTITION BY column(userid)
+REDUNDANCY 1
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table orders (
+orderid varchar(20) not null,
+userid varchar(20) not null,
+addrid int not null,
+orderdate date not null,      
+totalprice decimal(10,2) not null,      
+status varchar(10) not null,
+constraint pk_orders primary key (orderid),
+constraint fk_orders_1 foreign key (userid)
+references customer (userid),
+constraint fk_orders_2 foreign key (addrid)
+references address (addrid)
+)
+PARTITION BY column(userid)
+COLOCATE WITH (customer)
+REDUNDANCY 1
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table category (
+catid varchar(10) not null,
+name varchar(80) null,
+descn varchar(100) null,
+constraint pk_category primary key (catid)
+)
+REPLICATE
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table product (
+productid varchar(10) not null,
+catid varchar(10) not null,
+unitcost decimal(10,2) null,
+name varchar(80) null,
+descn varchar(100) null,
+constraint pk_product primary key (productid),
+constraint fk_product_1 foreign key (catid)
+references category (catid)
+)
+REPLICATE
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table orderitems (
+itemid int not null,
+orderid varchar(20) not null,    
+productid varchar(10) not null,
+quantity int not null,
+listprice decimal(10,2) null,
+unitcost decimal(10,2) null,
+status varchar(10) not null,
+constraint pk_orderitems primary key (itemid),
+constraint fk_orderitems_1 foreign key (orderid)
+references orders (orderid),
+constraint fk_orderitems_2 foreign key (productid)
+references product (productid)
+)
+PARTITION BY column(orderid) COLOCATE WITH (orders)
+REDUNDANCY 1
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table ordertrack (
+trackid int not null,
+orderid varchar(20) not null,
+shipaddrid int not null,
+shipdate date null,
+ordertrkstatus varchar(10) not null,
+constraint pk_ordertrack primary key (trackid),
+constraint fk_ordertrack_1 foreign key (orderid)
+references orders (orderid),
+constraint fk_ordertrack_2 foreign key (shipaddrid)
+references address (addrid)
+)
+PARTITION BY column(orderid) 
+COLOCATE WITH (orders)
+REDUNDANCY 1
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table inventory (
+stockid varchar(10) not null,
+productid varchar(10) not null,
+stockqty int not null,
+stockstatus varchar(10) not null,
+stockrecvdate date not null,
+constraint pk_inventory primary key (stockid),
+constraint fk_inventory_1 foreign key (productid)
+references product (productid)
+)
+REPLICATE
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table payment (
+paymentid varchar(20) not null,
+orderid varchar(20) not null,
+totalamount decimal(10,2) not null, 
+status varchar(10) null,
+paymentdate date not null,
+constraint pk_payment primary key (paymentid),
+constraint fk_payment_1 foreign key (orderid)
+references orders (orderid)
+)
+PARTITION BY column(paymentid) COLOCATE WITH (orders)
+REDUNDANCY 1
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table soptransaction (
+transactionid varchar(20) not null,
+paymentid varchar(20) not null,
+transamount decimal(10,2) not null,
+transdate date not null,
+transtype varchar(20) not null,
+constraint pk_soptransaction primary key (transactionid),
+constraint fk_soptransaction_1 foreign key (paymentid)
+references payment (paymentid)
+)
+PARTITION BY column(paymentid) COLOCATE WITH (payment)
+REDUNDANCY 1
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table cardinfo (
+cardinfoid varchar(20) not null,		
+transactionid varchar(20) not null,
+cardnum bigint not null,
+nameoncard varchar(30) not null,
+expdate date not null,
+cardtype varchar(20) not null,
+cardgatewaytype varchar(20) not null,
+cardcvvnum int not null,
+constraint pk_cardinfo primary key (cardinfoid),
+constraint fk_cardinfo_1 foreign key (transactionid)
+references soptransaction (transactionid)
+)
+PARTITION BY column(transactionid)
+REDUNDANCY 1
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table directdebit (
+debtid varchar(20) not null,
+transactionid varchar(20) not null,
+accholdername varchar(30) not null,
+accnum int not null,
+acctype varchar(10) not null,
+bankname varchar(20) not null,
+bankbranch varchar(20) not null,
+ifsccode varchar(20) not null,
+debtamount decimal(10,2) not null,
+debtdate date not null,
+debtfrequency varchar(20) not null,
+debtstatus varchar(10)  null,
+constraint pk_directdebit primary key (debtid),
+constraint fk_directdebit_1 foreign key (transactionid)
+references soptransaction (transactionid)
+)
+PARTITION BY column(transactionid)
+REDUNDANCY 1
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+create table discount (
+discid int not null,
+custtype varchar(20) not null,
+disctype varchar(20) not null,
+discpercent decimal(4,2) not null,
+constraint pk_discount primary key (discid),
+constraint uc_discount_1 UNIQUE (custtype)
+)
+REPLICATE
+PERSISTENT
+GATEWAYSENDER(multisiteClusterSender2) SERVER GROUPS (sender_group);
+
+--STORED PROCEDURES
+
+CREATE PROCEDURE GET_ALL_ORDERS_FOR_PERIOD(IN ORDERID VARCHAR(20), IN STATUS VARCHAR(10), IN FROMDATE date, IN TODATE date) 
+LANGUAGE JAVA 
+PARAMETER STYLE JAVA 
+READS SQL DATA 
+DYNAMIC RESULT SETS 1 
+EXTERNAL NAME 'com.emc.sqlfire.sop.procedures.GetAllOrdersForPeriod.execute';
+
+CREATE PROCEDURE GET_PAYMENT_DETAILS(IN PAYMENTID VARCHAR(20),IN ORDERID VARCHAR(20), IN STATUS VARCHAR(10), IN FROMDATE date, IN TODATE date) 
+LANGUAGE JAVA 
+PARAMETER STYLE JAVA 
+READS SQL DATA 
+DYNAMIC RESULT SETS 1 
+EXTERNAL NAME 'com.emc.sqlfire.sop.procedures.GetPaymentDetails.execute';
+
+CREATE PROCEDURE GET_TRANS_DETAILS(IN PAYMENTID VARCHAR(20)) 
+LANGUAGE JAVA 
+PARAMETER STYLE JAVA 
+READS SQL DATA 
+DYNAMIC RESULT SETS 1 
+EXTERNAL NAME 'com.emc.sqlfire.sop.procedures.GetTransactionDetails.execute';
+
+CREATE PROCEDURE GET_CARD_DETAILS(IN TRANSACTIONID VARCHAR(20)) 
+LANGUAGE JAVA 
+PARAMETER STYLE JAVA 
+READS SQL DATA 
+DYNAMIC RESULT SETS 1 
+EXTERNAL NAME 'com.emc.sqlfire.sop.procedures.GetCardInfo.execute';
+
+
+CREATE PROCEDURE GET_DEBIT_DETAILS(IN TRANSACTIONID VARCHAR(20)) 
+LANGUAGE JAVA 
+PARAMETER STYLE JAVA 
+READS SQL DATA 
+DYNAMIC RESULT SETS 1 
+EXTERNAL NAME 'com.emc.sqlfire.sop.procedures.GetDebitDetails.execute';
