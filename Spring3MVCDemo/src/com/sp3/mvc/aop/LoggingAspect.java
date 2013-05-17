@@ -1,11 +1,12 @@
 package com.sp3.mvc.aop;
 
 import org.apache.log4j.Logger;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.util.StopWatch;
 
@@ -16,7 +17,6 @@ public class LoggingAspect {
 	
 	@Around("controllerBean() && methodPointcut() ")
 	public Object logTimeMethod(ProceedingJoinPoint joinPoint) throws Throwable {
-		log.debug("LoggingAspect::logTimeMethod start");
 		
 		StopWatch stopWatch = new StopWatch();
 		stopWatch.start();
@@ -44,7 +44,7 @@ public class LoggingAspect {
 		logMessage.append(stopWatch.getTotalTimeMillis());
 		logMessage.append(" ms");
 		log.info(logMessage.toString());
-		log.debug("LoggingAspect::logTimeMethod end");
+		
 		return retVal;
 	}
 	
@@ -54,10 +54,25 @@ public class LoggingAspect {
     @Pointcut("execution(* *(..))")
     public void methodPointcut() {}
 
-    /*@AfterReturning("controllerBean() && methodPointcut() ")
-    public void afterMethodInControllerClass() {
-    	log.debug("after advice..");
-    }*/
+    @AfterReturning("controllerBean() && methodPointcut() ")
+    public void afterMethodInControllerClass(JoinPoint joinPoint) {
+    	StringBuffer logMessage = new StringBuffer();
+    	logMessage.append(joinPoint.getTarget().getClass().getName());
+		logMessage.append(".");
+		logMessage.append(joinPoint.getSignature().getName());
+		logMessage.append(" End");
+		log.info(logMessage.toString());
+    }
+    
+    @Before("controllerBean() && methodPointcut() ")
+    public void beforeMethodInControllerClass(JoinPoint joinPoint) {
+    	StringBuffer logMessage = new StringBuffer();
+    	logMessage.append(joinPoint.getTarget().getClass().getName());
+		logMessage.append(".");
+		logMessage.append(joinPoint.getSignature().getName());
+		logMessage.append(" Start");
+		log.info(logMessage.toString());
+    }
 
 
 }
