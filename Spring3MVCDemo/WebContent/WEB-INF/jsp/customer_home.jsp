@@ -57,7 +57,7 @@
 			
             <li>
             <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
-            <a href="/Spring3MVCDemo/gotopaymentreports.htm"><span class="iconic info"></span>Payment Reports</a> 
+            <a href="/Spring3MVCDemo/gotopaymentreports.htm"><span class="iconic article"></span>Payment Reports</a> 
             </sec:authorize>
             </li>
 			

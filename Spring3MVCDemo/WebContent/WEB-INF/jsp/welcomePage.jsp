@@ -20,7 +20,7 @@
 
 <body>
 <h1 align="center">&nbsp;</h1>
-<h1 align="left">&nbsp; Welcome ${user} to Sales Order Processing System</h1>
+<h1 align="left">&nbsp; Welcome <sec:authorize access="isAuthenticated()">  <sec:authentication property="principal.username"/> </sec:authorize> to Sales Order Processing System</h1>
 <div class="wrap">
 	
 	<nav>
@@ -32,18 +32,61 @@
 					<li><a href="#">Meet the team</a></li>
 				</ul>
 			</li>
-            <li><a href="#"><span class="iconic user"></span>Register</a>
+            <li>
+             <sec:authorize access="not isAuthenticated()">
+            <a href="#"><span class="iconic user"></span>Register</a>
 				<ul>
 					<li><a href="/Spring3MVCDemo/gotoregister.htm?userType=customer">Customer</a></li>
 					<li><a href="/Spring3MVCDemo/gotoregister.htm?userType=customer">Admin</a></li>
 				</ul>
+				</sec:authorize>
 			</li>
 			
-			<li><a href="/Spring3MVCDemo/login.htm"><span class="iconic locked"></span>Login</a> </li>
+			<li>
+			<sec:authorize access="not isAuthenticated()" >
+			<a href="/Spring3MVCDemo/login.htm"><span class="iconic unlocked"></span>Login</a>
+			</sec:authorize>
+			</li>
+		
+			<li>
+            <sec:authorize access="hasRole('ROLE_USER')">
+            <a href="/Spring3MVCDemo/viewproduct.htm"><span class="iconic map-pin"></span>View Products</a>
+			</sec:authorize>
+			</li>
+			
+			<li>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <a href="/Spring3MVCDemo/gotoupdatepayments.htm"><span class="iconic cog-alt"></span>Payment Tracking</a> 
+            </sec:authorize>
+            </li>
 			
             <li>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <a href="/Spring3MVCDemo/order.htm"><span class="iconic check-alt"></span>Order Tracking</a> 
+            </sec:authorize>
+            </li>
+            
+			<li>
+            <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+            <a href="/Spring3MVCDemo/gotoorderreports.htm"><span class="iconic pencil"></span>Order Reports</a> 
+            </sec:authorize>
+            </li>
+			
+            <li>
+            <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+            <a href="/Spring3MVCDemo/gotopaymentreports.htm"><span class="iconic article"></span>Payment Reports</a> 
+            </sec:authorize>
+            </li>
+			
+            <li>
+            <sec:authorize access="hasRole('ROLE_SYSADMIN')">
+            <a href="/Spring3MVCDemo/getDisabledCustomers.htm"><span class="iconic key"></span>Enable Customer</a> 
+            </sec:authorize>
+            </li>
+			
+		    <li>
             <sec:authorize access="isAuthenticated()">
-            <a href="<c:url value="/j_spring_security_logout" />" ><span class="iconic locked"></span> Logout</a>
+            <a href="<c:url value="/j_spring_security_logout" />" ><span class="iconic locked"></span>Logout</a>
             </sec:authorize>
             </li>
             
