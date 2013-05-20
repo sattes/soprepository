@@ -1,28 +1,89 @@
 package com.sp3.mvc.controllers;
 
-import javax.validation.Valid;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.sop.dao.CategoryDao;
+import com.sop.dao.CustomerDao;
+import com.sp3.mvc.models.CatAndProducts;
+import com.sp3.mvc.models.Category;
 import com.sp3.mvc.models.Customer;
-import com.sp3.mvc.models.Login;
-
 @Controller
+@SessionAttributes("caps")
 //@RequestMapping("/hello")
 public class HelloController {
 	
 	private static Logger logger = Logger.getLogger(HelloController.class);
+	@Resource(name = "catDao")
+	private CategoryDao catDao;
+	@Resource(name = "custDao")
+	private CustomerDao custDao;
 
+
+
+	
 	@RequestMapping("/index")
-	public String sayHello(Model model) {
+	public String sayHello(Model model,HttpServletRequest request) throws SQLException, ClassNotFoundException {
 		logger.debug("Inside sayHello method...");
 		model.addAttribute("message", "Welcome to SalesOrderProcessingSystem");
+		final String currentUser = SecurityContextHolder.getContext()
+				.getAuthentication().getName();
+		if ((currentUser.equals("") || currentUser.equals(null) || currentUser
+				.equalsIgnoreCase("anonymousUser"))) {
+			
+			logger.info("You are not logged in");
+			
+			
+			
+		
+		} 
+		else{
+			Customer dbLogin = null;
+
+			try {
+
+				dbLogin = custDao.getCustomerByUserId(currentUser);
+
+				} catch (SQLException e) {
+
+				logger.error("SQLException got from CustomerDao in goToCustomerHome()");
+
+				throw e;
+
+				}
+
+
+
+			
+
+			request.getSession().setAttribute("login", dbLogin);
+
+			List<Category> categories = null;
+			try {
+				categories = catDao.getAllCategories();
+				CatAndProducts caps = new CatAndProducts();
+				caps.getCategories().addAll(categories);
+				model.addAttribute("caps", caps);
+			} catch (SQLException e) {
+				logger.error("SQLException got from CategoryDao in getAllCategories()");
+				throw e;
+			}
+			
+			
+		}
+		
+		
+		
 		return "welcomePage";
 	}
 	

@@ -3,7 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -130,7 +130,17 @@ $(function(){
 <br /><br />
 <c:if test="${not empty param.login_error}">
 <label style="text-align:center;color:#F00"> 
-&nbsp;&nbsp;&nbsp; Login Failed because ${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}
+&nbsp;&nbsp;&nbsp; 
+<c:if test="${sessionScope[\"SPRING_SECURITY_LAST_EXCEPTION\"].message eq 'Bad credentials'}">
+Username/Password entered is incorrect.
+</c:if>
+<c:if test="${sessionScope[\"SPRING_SECURITY_LAST_EXCEPTION\"].message eq 'User is disabled'}">
+Your account is diabled, please contact administrator.
+</c:if>
+<c:if test="${fn:containsIgnoreCase(sessionScope[\"SPRING_SECURITY_LAST_EXCEPTION\"].message,'A communications error has been detected')}">
+Database connection is down, try after sometime.
+</c:if>
+
 </label>
 </c:if>
 

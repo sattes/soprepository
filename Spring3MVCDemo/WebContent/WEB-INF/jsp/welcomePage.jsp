@@ -21,6 +21,7 @@
 <body>
 <h1 align="center">&nbsp;</h1>
 <h1 align="left">&nbsp; Welcome <sec:authorize access="isAuthenticated()">  <sec:authentication property="principal.username"/> </sec:authorize> to Sales Order Processing System</h1>
+<form:form action="/Spring3MVCDemo/getproducts.htm" modelAttribute="caps">
 <div class="wrap">
 	
 	<nav>
@@ -37,7 +38,7 @@
             <a href="#"><span class="iconic user"></span>Register</a>
 				<ul>
 					<li><a href="/Spring3MVCDemo/gotoregister.htm?userType=customer">Customer</a></li>
-					<li><a href="/Spring3MVCDemo/gotoregister.htm?userType=customer">Admin</a></li>
+					<li><a href="/Spring3MVCDemo/gotoregister.htm?userType=admin">Admin</a></li>
 				</ul>
 				</sec:authorize>
 			</li>
@@ -51,6 +52,11 @@
 			<li>
             <sec:authorize access="hasRole('ROLE_USER')">
             <a href="/Spring3MVCDemo/viewproduct.htm"><span class="iconic map-pin"></span>View Products</a>
+            <ul>
+            <c:forEach var="category" items="${caps.categories}">
+            <li><a href="/Spring3MVCDemo/getproducts.htm?category=${category.catId}">${category.name}</a></li>
+            </c:forEach>
+            </ul> 
 			</sec:authorize>
 			</li>
 			
@@ -96,7 +102,7 @@
 		<div class="clearfix"></div>
 	</nav>
 	</div>
-      
+      </form:form>
 </body>
 
 </html>
