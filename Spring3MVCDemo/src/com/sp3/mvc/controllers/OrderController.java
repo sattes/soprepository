@@ -51,6 +51,7 @@ import com.sp3.mvc.helper.DateUtils;
 import com.sp3.mvc.helper.JaxbHelper;
 import com.sp3.mvc.helper.MessageHelper;
 import com.sp3.mvc.models.Address;
+import com.sp3.mvc.models.CatAndProducts;
 import com.sp3.mvc.models.Category;
 import com.sp3.mvc.models.Customer;
 import com.sp3.mvc.models.CustomerRole;
@@ -277,9 +278,9 @@ public class OrderController {
 		
 		
 	@RequestMapping(value="/backtoproducts", method = RequestMethod.POST)
-	public String doBack(HttpServletRequest request) {
+	public String doBack(@ModelAttribute("caps")CatAndProducts caps, HttpServletRequest request) {
 		logger.debug("Inside OrderController::doBack method...");
-		
+		caps.setHasErros(false);
 		return "viewProducts";
 	}
 	
