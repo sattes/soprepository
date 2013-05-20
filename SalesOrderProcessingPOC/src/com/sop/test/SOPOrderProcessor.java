@@ -17,7 +17,7 @@ public class SOPOrderProcessor {
 	public static void main(String args[]) throws Exception{
 	
 		ApplicationContext context = new FileSystemXmlApplicationContext(
-	    	"C:/enterprise-integration-1.5.0.RELEASE/newWorkSpace/SalesOrderProcessingPOC/src/SalesOrderProcessingFlowWithRabbit.xml");
+	    	"../SalesOrderProcessingPOC/src/SalesOrderProcessingFlowWithRabbit.xml");
 		PublishSubscribeChannel psChannel3 =(PublishSubscribeChannel)context.getBean("wsInboundChannel");
 		AMQPPubSubMessageHandler psMHandler3 = new AMQPPubSubMessageHandler();
         EventDrivenConsumer edc3= new EventDrivenConsumer(psChannel3, psMHandler3);
