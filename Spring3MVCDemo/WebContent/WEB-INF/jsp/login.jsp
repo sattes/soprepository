@@ -61,7 +61,7 @@ $(function(){
             <a href="#"><span class="iconic user"></span>Register</a>
 				<ul>
 					<li><a href="/Spring3MVCDemo/gotoregister.htm?userType=customer">Customer</a></li>
-					<li><a href="/Spring3MVCDemo/gotoregister.htm?userType=customer">Admin</a></li>
+					<li><a href="/Spring3MVCDemo/gotoregister.htm?userType=admin">Admin</a></li>
 				</ul>
 				</sec:authorize>
 			</li>
