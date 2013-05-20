@@ -307,7 +307,7 @@ public class RegistrationController {
 		customer.setRole(custRole);
 		
 		// Enable this code for Local Data Base - Start
-		Connection conn = null;
+		/*Connection conn = null;
 		try {
 			conn = dataSource.getConnection();
 			logger.debug("Connection is successful");
@@ -326,11 +326,11 @@ public class RegistrationController {
 			conn.rollback();
 		} finally {
 			DBUtils.closeConnection(conn);
-		}
+		}*/
 		// Enable this code for Local Data Base - End
 		
 		//Enable this code for sending Address xml - Start
-		/*com.sp3.mvc.jaxb.Address jaxbCustAddr = JaxbHelper.getJaxbAddress(customerAddr, customer);
+		com.sp3.mvc.jaxb.Address jaxbCustAddr = JaxbHelper.getJaxbAddress(customerAddr, customer);
 		String textMessage = getMarshalledString(jaxbCustAddr);
 		textMessage = textMessage.replaceAll("ns2:", "");
 		textMessage = textMessage.replaceAll("ns3:", "");
@@ -341,7 +341,7 @@ public class RegistrationController {
 		String qName = myProps.getProperty("registration.qname");
 		String ipAddress = myProps.getProperty("ip.address");
 		AMQPMessageHelper helper = new AMQPMessageHelper();
-		helper.sendMessage(textMessage,exchangeName, qName,ipAddress);*/
+		helper.sendMessage(textMessage,exchangeName, qName,ipAddress);
 		//Enable this code for sending Address xml - End
 		
 		logger.debug("Registration record inserted successfully...");
