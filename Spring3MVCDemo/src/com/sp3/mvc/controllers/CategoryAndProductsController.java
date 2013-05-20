@@ -77,7 +77,7 @@ public class CategoryAndProductsController {
 		logger.debug("selectedProdIds - "+selectedProdIds);
 		if(selectedProdIds == null && selectedProducts.isEmpty()) {
 			caps.setHasErros(true);
-			model.addAttribute("viewProducts.selectMessage", myProps.getProperty("viewProducts.selectMessage"));
+			model.addAttribute("selectMessage", myProps.getProperty("viewProducts.selectMessage"));
 			return "viewProducts";
 		} else {
 			
@@ -95,7 +95,7 @@ public class CategoryAndProductsController {
 						if(selectedProd.getProductId().equals(prod.getProductId())){
 							if(prod.getQuantity() == null) {
 								caps.setHasErros(true);
-								model.addAttribute("viewProducts.quantityMessage", myProps.getProperty("viewProducts.quantityMessage"));
+								model.addAttribute("quantityMessage", myProps.getProperty("viewProducts.quantityMessage"));
 								return "viewProducts";
 							}
 							selectedProd.setQuantity(prod.getQuantity());
