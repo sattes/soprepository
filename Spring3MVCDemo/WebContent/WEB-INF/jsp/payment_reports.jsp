@@ -28,7 +28,7 @@
 <script type="text/javascript">
 	$(document).ready(function() {			
 		$("#fromDate").datepicker( {
-			/* dateFormat: 'yy-mm-dd', */
+			dateFormat: 'yy-mm-dd',
 			showOn: "button",
 			showAnim: "slideDown",
 			buttonImage: "./images/datepicker_icon.gif",
@@ -43,7 +43,7 @@
 	    });
 	    
 		$("#toDate").datepicker( {
-			/* dateFormat: 'yy-mm-dd', */
+			dateFormat: 'yy-mm-dd',
 			showOn: "button",
 			showAnim: "slideDown",
 			buttonImage: "./images/datepicker_icon.gif",

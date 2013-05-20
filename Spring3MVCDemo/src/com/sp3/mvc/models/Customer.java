@@ -20,11 +20,11 @@ public class Customer implements Serializable{
 	@NotEmpty
     private String password;
 	@NotEmpty
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 50)
 	@Pattern(regexp = "[a-zA-Z]*")
     private String fname;
     @NotEmpty
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 50)
 	@Pattern(regexp = "[a-zA-Z]*")
     private String lname;
     @NotEmpty
