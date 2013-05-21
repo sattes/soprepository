@@ -54,6 +54,7 @@ public class PaymentConsumerController {
 		    		", PaymentAmount - "+returnedPayment.getPaymentAmount()+", Status - "+returnedPayment.getPaymentStatus());
 			
 		    payment.setPaymentId(returnedPayment.getPaymentId());
+		    payment.setOrderId(returnedPayment.getOrderId());
 		    payment.setPaymentDate(returnedPayment.getPaymentDate());
 		    payment.setPaymentAmount(returnedPayment.getPaymentAmount());
 		    payment.setPaymentStatus(returnedPayment.getPaymentStatus());
