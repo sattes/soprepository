@@ -15,15 +15,30 @@
 	        </list>
 	    </property>
 	</bean>
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">      
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">      
 		<property name="driverClassName" value="${jdbc.driverClassName}"/>      
 		<property name="url" value="${jdbc.url}"/>        
 	</bean>
-	<bean class="com.sp3.mvc.dao.CustomerDao">
-		<property name="jdbcTemp" ref="jdbcTemplate">
-		</property>
+	<bean id="base" class="com.sop.dao.BaseDao">
+		<property name="jdbcTemp" ref="jdbcTemplate"/>
+		<property name="myProps" ref="myProps"/>	
 	</bean>
-	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+	<bean id="addrDao" class="com.sop.dao.AddressDao" parent="base" />
+	<bean id="custDao" class="com.sop.dao.CustomerDao" parent="base" />
+	<bean id="catDao" class="com.sop.dao.CategoryDao" parent="base" />
+	<bean id="prodDao" class="com.sop.dao.ProductDao" parent="base" />
+	<bean id="discDao" class="com.sop.dao.DiscountDao" parent="base" />
+	<bean id="ordDao" class="com.sop.dao.OrderDao" parent="base" />
+	<bean id="itemDao" class="com.sop.dao.OrderItemDao" parent="base" />
+	<bean id="roleDao" class="com.sop.dao.CustomerRoleDao" parent="base" />
+	<bean id="payDao" class="com.sop.dao.PaymentDao" parent="base" />
+	<bean id="cardDao" class="com.sop.dao.CardInfoDao" parent="base" />
+	<bean id="debitDao" class="com.sop.dao.DirectDebitDao" parent="base" />
+	<bean id="txnDao" class="com.sop.dao.TransactionDao" parent="base" />
+	
+	
+	
+	<bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
 		<property name="dataSource" ref="dataSource"></property>
 	</bean>
 </beans>
