@@ -25,13 +25,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.sop.dao.AddressDao;
-import com.sop.dao.CategoryDao;
-import com.sop.dao.CustomerDao;
-import com.sop.dao.DiscountDao;
-import com.sop.dao.OrderDao;
-import com.sop.dao.OrderItemDao;
-import com.sop.dao.ProductDao;
+import com.sp3.mvc.dao.AddressDao;
+import com.sp3.mvc.dao.CategoryDao;
+import com.sp3.mvc.dao.CustomerDao;
+import com.sp3.mvc.dao.DiscountDao;
+import com.sp3.mvc.dao.OrderDao;
+import com.sp3.mvc.dao.OrderItemDao;
+import com.sp3.mvc.dao.ProductDao;
 import com.sp3.mvc.enums.AddressTypeEnum;
 import com.sp3.mvc.enums.OrderStatusEnum;
 import com.sp3.mvc.helper.AMQPMessageHelper;
@@ -120,15 +120,21 @@ public class OrderController {
 		
 		Integer itemId = itemDao.getMaxItemId();
 		Integer addrId = addrDao.getMaxAddressId();
-		String orderId = ordDao.getMaxOrderId();
+		Integer orderId = ordDao.getMaxOrderId();
 		
-		if(orderId == null || orderId.equals("")) {
-			orderId = "ORDER-100";
+		String maxOrderId = null;
+
+
+		if(orderId == null) {
+
+		maxOrderId = "ORDER-100";
+
 		} else {
-			String[] arr = orderId.split("-");
-			int maxId = Integer.parseInt(arr[1]);
-			orderId = "ORDER-"+(maxId+1);
+
+		maxOrderId = "ORDER-"+(orderId+1);
+
 		}
+
 		logger.debug("itemId - "+itemId);
 		logger.debug("addrId - "+addrId);
 		logger.debug("OrderId - "+orderId);
@@ -137,7 +143,7 @@ public class OrderController {
 		
 		order.setAddressId(addr.getAddressId());
 		order.setOrderDate(new Date());
-		order.setOrderId(orderId);
+		order.setOrderId(maxOrderId);
 		order.setStatus(OrderStatusEnum.ORDERED);
 		order.setUserId(login.getUserName());
 		order.setTotalPrice(0.0d);
@@ -235,7 +241,7 @@ public class OrderController {
 		AMQPMessageHelper helper = new AMQPMessageHelper();
 		helper.sendMessage(textMessage,exchangeName, qName,ipAddress);
 		
-		request.getSession().setAttribute("orderId", orderId);
+		request.getSession().setAttribute("orderId", maxOrderId);
 		return "orderInfo";
 	}
 	

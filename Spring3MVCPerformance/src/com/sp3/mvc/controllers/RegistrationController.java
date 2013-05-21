@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sop.dao.AddressDao;
-import com.sop.dao.CustomerDao;
+import com.sp3.mvc.dao.AddressDao;
+import com.sp3.mvc.dao.CustomerDao;
 import com.sp3.mvc.dao.DBUtils;
 import com.sp3.mvc.enums.AddressTypeEnum;
 import com.sp3.mvc.enums.CustomerStatusEnum;
