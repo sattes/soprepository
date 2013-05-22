@@ -1,9 +1,11 @@
 package com.sp3.mvc.controllers;
 
+import java.util.Enumeration;
 import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -96,7 +98,14 @@ public class OrderConsumerController {
 	}
 	
 	@RequestMapping(value="/backtohome", method=RequestMethod.POST)
-	public String close() {
+	public String close(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if(session != null) {
+			Enumeration<String> sessionAttributes = session.getAttributeNames();
+			while(sessionAttributes.hasMoreElements()) {
+				session.removeAttribute(sessionAttributes.nextElement());
+			}
+		}
 		return "customer_home"; 
 	}
 	

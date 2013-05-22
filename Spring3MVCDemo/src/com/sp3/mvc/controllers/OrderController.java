@@ -3,16 +3,11 @@ package com.sp3.mvc.controllers;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -31,25 +26,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.sop.dao.AddressDao;
 import com.sop.dao.CategoryDao;
 import com.sop.dao.CustomerDao;
 import com.sop.dao.CustomerRoleDao;
-//import com.sop.dao.DBUtils;
 import com.sop.dao.DiscountDao;
 import com.sop.dao.OrderDao;
 import com.sop.dao.OrderItemDao;
 import com.sop.dao.ProductDao;
 import com.sp3.mvc.enums.AddressTypeEnum;
-import com.sp3.mvc.enums.OrderItemStatusEnum;
 import com.sp3.mvc.enums.OrderStatusEnum;
 import com.sp3.mvc.helper.AMQPMessageHelper;
 import com.sp3.mvc.helper.DateUtils;
 import com.sp3.mvc.helper.JaxbHelper;
-import com.sp3.mvc.helper.MessageHelper;
 import com.sp3.mvc.models.Address;
 import com.sp3.mvc.models.CatAndProducts;
 import com.sp3.mvc.models.Category;
@@ -59,6 +50,7 @@ import com.sp3.mvc.models.Discount;
 import com.sp3.mvc.models.Order;
 import com.sp3.mvc.models.OrderItem;
 import com.sp3.mvc.models.Product;
+//import com.sop.dao.DBUtils;
 
 @Controller
 @SessionAttributes("caps")
@@ -278,10 +270,39 @@ public class OrderController {
 		
 		
 	@RequestMapping(value="/backtoproducts", method = RequestMethod.POST)
-	public String doBack(@ModelAttribute("caps")CatAndProducts caps, HttpServletRequest request) {
+	public String doBack(@ModelAttribute("caps")CatAndProducts caps, HttpServletRequest request, Model model) {
 		logger.debug("Inside OrderController::doBack method...");
 		caps.setHasErros(false);
+		Set<Product> selectedProducts = (Set<Product>)request.getSession().getAttribute("selectedProducts");
+		String[] selectedProdIds = new String[selectedProducts.size()];
+		int i = 0;
+		for(Product pr : selectedProducts) {
+			selectedProdIds[i] = pr.getProductId();
+			i = i+1;
+		}
+		model.addAttribute("selectedProdIds",selectedProdIds);
+		logger.debug("selectedProdIds = "+selectedProdIds);
+		/*for(Product prod : caps.getProducts()) {
+			prod.setQuantity(null);
+		}*/
 		return "viewProducts";
+	}
+	
+	@RequestMapping(value="/removeproduct", method = RequestMethod.GET)
+	public String removeProduct(@ModelAttribute("order")Order order, HttpServletRequest request, Model model) {
+		Set<Product> selectedProducts = (Set<Product>)request.getSession().getAttribute("selectedProducts");
+		String selectedProdId = (String)request.getParameter("prodid");
+		logger.debug("selectedProdId =" +selectedProdId);
+		Iterator<Product> prodIterator = selectedProducts.iterator();
+		while(prodIterator.hasNext()) {
+			Product p = prodIterator.next();
+			if(p.getProductId().equals(selectedProdId)) {
+				prodIterator.remove();
+				break;
+			}
+		}
+		
+		return "viewCart";
 	}
 	
 	public String doSubmitCart(Order order, HttpServletRequest request) throws SQLException, ClassNotFoundException, ParseException {
