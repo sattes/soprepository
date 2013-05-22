@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.sop.dao.AddressDao;
-import com.sop.dao.CardInfoDao;
-import com.sop.dao.CustomerDao;
-import com.sop.dao.OrderDao;
-import com.sop.dao.PaymentDao;
-import com.sop.dao.TransactionDao;
+import com.sp3.mvc.dao.AddressDao;
+import com.sp3.mvc.dao.CardInfoDao;
+import com.sp3.mvc.dao.CustomerDao;
+import com.sp3.mvc.dao.OrderDao;
+import com.sp3.mvc.dao.PaymentDao;
+import com.sp3.mvc.dao.TransactionDao;
 import com.sp3.mvc.enums.PaymentStatusEnum;
 import com.sp3.mvc.helper.AMQPMessageHelper;
 import com.sp3.mvc.helper.DateUtils;

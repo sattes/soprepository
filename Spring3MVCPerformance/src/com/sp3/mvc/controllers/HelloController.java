@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
@@ -33,7 +34,7 @@ import com.sp3.mvc.dao.ProductDao;
 import com.sp3.mvc.enums.AddressTypeEnum;
 import com.sp3.mvc.enums.OrderStatusEnum;
 import com.sp3.mvc.helper.DateUtils;
-import com.sp3.mvc.helper.MessageHelper;
+import com.sp3.mvc.helper.AMQPMessageHelper;
 import com.sp3.mvc.models.Address;
 import com.sp3.mvc.models.Category;
 import com.sp3.mvc.models.Customer;
@@ -59,6 +60,9 @@ public class HelloController {
 	
 	
 	private Marshaller marshaller;
+	
+	@Resource(name = "myProps")
+	private Properties myProps;
 	
 	@Resource(name = "ordDao")
 	private OrderDao ordDao;
@@ -261,16 +265,21 @@ com.sp3.mvc.jaxb.Customer customer = new com.sp3.mvc.jaxb.Customer();
 		
 //			String finalXMLName = NEW_XML_FILE_PATH + NEW_XML_FILE_NAME1 + fileExt +"." + NEW_XML_FILE_TYPE;
 //			convertFromObjectToXML(jaxbOrder4xml, finalXMLName);
-		String textMessage = getMarshalledString(jaxbOrder4xml);
+			String textMessage = getMarshalledString(jaxbOrder4xml);
 			textMessage = textMessage.replaceAll("ns2:", "");
 			textMessage = textMessage.replaceAll("ns3:", "");
 			textMessage = textMessage.replaceAll("ns4:", "");
 			textMessage = textMessage.replaceAll("ns5:", "");
+			textMessage = textMessage.replaceAll("ns6:", "");
 			textMessage = textMessage.replaceAll("ns7:", "");
+			textMessage = textMessage.replaceAll("ns8:", "");
 			logger.debug("Message:" + textMessage);
 			
-			MessageHelper msgHelper = new MessageHelper();
-			msgHelper.sendMessage("sopInboundQueue", textMessage);
+			String exchangeName = myProps.getProperty("exchange.name");
+			String qName = myProps.getProperty("order.qname");
+			String ipAddress = myProps.getProperty("ip.address");
+			AMQPMessageHelper helper = new AMQPMessageHelper();
+			helper.sendMessage(textMessage,exchangeName, qName,ipAddress);
 			
 		 /*catch (IOException e) {
 			System.out.println("IOException occurred while writing to new XML:"+e);
