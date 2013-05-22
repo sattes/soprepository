@@ -100,7 +100,7 @@
         <property name="unmarshaller" ref="jaxb2Marshaller" />
     </bean>
     
-	<!-- <bean id="custDao" class="com.sp3.mvc.dao.CustomerDao">
+	<bean id="custDao" class="com.sp3.mvc.dao.CustomerDao">
 		<constructor-arg >
 			<ref bean="myProps"/>
 		</constructor-arg>
@@ -158,7 +158,7 @@
 		<constructor-arg >
 			<ref bean="myProps"/>
 		</constructor-arg>
-	</bean> -->
+	</bean>
 	
     <!-- <bean name="/welcome.htm" class="com.sp3.mvc.controllers.HelloWorldController" >
         <property name="message" value="Hello World!" />

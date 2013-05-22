@@ -19,7 +19,7 @@
 		<property name="driverClassName" value="${jdbc.driverClassName}"/>      
 		<property name="url" value="${jdbc.url}"/>        
 	</bean>
-	<bean id="base" class="com.sop.dao.BaseDao">
+	<!-- <bean id="base" class="com.sop.dao.BaseDao">
 		<property name="jdbcTemp" ref="jdbcTemplate"/>
 		<property name="myProps" ref="myProps"/>	
 	</bean>
@@ -40,5 +40,5 @@
 	
 	<bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
 		<property name="dataSource" ref="dataSource"></property>
-	</bean>
+	</bean> -->
 </beans>
