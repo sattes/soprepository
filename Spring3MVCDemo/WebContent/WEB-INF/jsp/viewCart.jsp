@@ -52,7 +52,7 @@
 		 <legend>Order Details</legend>
 				<table id="datatable">
 					<tr>
-						<th>ProductId</th><th>Category</th><th>UnitCost</th><th>Name</th><th>Description</th><th>Quantity</th>
+						<th>ProductId</th><th>Category</th><th>UnitCost</th><th>Name</th><th>Description</th><th>Quantity</th><th>Remove</th>
 					</tr>
 					<c:forEach var="prod" items="${sessionScope.selectedProducts}">
 						<tr>
@@ -62,6 +62,11 @@
 					      <td>${prod.name}</td>
 					      <td>${prod.description}</td>
 					      <td>${prod.quantity}</td>
+					      <td>
+					      	<a href="/Spring3MVCDemo/removeproduct.htm?prodid=${prod.productId}" title="Remove from Cart">
+					      		<img src="./images/remove-from-cart-icon.jpg" alt="Remove from Cart"/>
+					      	</a>
+					      </td>
 					    </tr>
 					</c:forEach>
 				</table>
