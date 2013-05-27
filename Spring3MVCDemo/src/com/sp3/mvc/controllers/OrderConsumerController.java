@@ -103,7 +103,10 @@ public class OrderConsumerController {
 		if(session != null) {
 			Enumeration<String> sessionAttributes = session.getAttributeNames();
 			while(sessionAttributes.hasMoreElements()) {
-				session.removeAttribute(sessionAttributes.nextElement());
+				String attributeName = sessionAttributes.nextElement();
+				if(!attributeName.equals("login")) {
+					session.removeAttribute(attributeName);
+				}
 			}
 		}
 		return "customer_home"; 
