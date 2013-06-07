@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="/Spring3MVCDemo/css/sopstyles.css"/>
 </head>
 <body>
-	<form:form action="/Spring3MVCDemo/backtohome.htm" modelAttribute="payment">
+	<form:form action="/Spring3MVCDemo/index.htm" modelAttribute="payment">
    		<table class="mainheader">
 			<thead>
 				<tr>
