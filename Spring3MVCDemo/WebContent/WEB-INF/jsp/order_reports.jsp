@@ -9,6 +9,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>SalesOrderProcessingSystem - OrderReports</title>
+<link href="/Spring3MVCDemo/css/homestyle.css" media="screen" rel="stylesheet" type="text/css" />
+		<link href="/Spring3MVCDemo//css/iconic.css" media="screen" rel="stylesheet" type="text/css" />
+		<script src="/Spring3MVCDemo/js/prefix-free.js"></script>
+    
 <link rel="stylesheet" type="text/css" href="/Spring3MVCDemo/css/jquery-ui.css"/>
 <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
 <script src="http://code.jquery.com/ui/1.8.24/jquery-ui.js"></script>
@@ -60,23 +64,88 @@
 </script>
 </head>
 <body>
+<h1 align="left">&nbsp; Welcome <sec:authentication property="principal.username" /> </h1> 
+<h1 align="center"> SalesOrderProcessingSystem - Order Reports
+   </h1>
+<div class="wrap">
+	
+	<nav>
+		<ul class="menu">
+			<li><a href="/Spring3MVCDemo/index.htm"><span class="iconic home"></span> Home</a></li>
+			<li><a href="#"><span class="iconic info"></span>About</a>
+				<ul>
+					<li><a href="#">Company History</a></li>
+					<li><a href="#">Meet the team</a></li>
+				</ul>
+			</li>
+            <li>
+             <sec:authorize access="not isAuthenticated()">
+            <a href="#"><span class="iconic user"></span>Register</a>
+				<ul>
+					<li><a href="/Spring3MVCDemo/gotoregister.htm?userType=customer">Customer</a></li>
+					<li><a href="/Spring3MVCDemo/gotoregister.htm?userType=admin">Admin</a></li>
+				</ul>
+				</sec:authorize>
+			</li>
+			
+			<li>
+			<sec:authorize access="not isAuthenticated()" >
+			<a href="/Spring3MVCDemo/login.htm"><span class="iconic unlocked"></span>Login</a>
+			</sec:authorize>
+			</li>
+		
+			<li>
+            <sec:authorize access="hasRole('ROLE_USER')">
+            <a href="/Spring3MVCDemo/viewproduct.htm"><span class="iconic map-pin"></span>View Products</a>
+            <ul>
+            <c:forEach var="category" items="${caps.categories}">
+            <li><a href="/Spring3MVCDemo/getproducts.htm?category=${category.catId}">${category.name}</a></li>
+            </c:forEach>
+            </ul> 
+			</sec:authorize>
+			</li>
+			
+			<li>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <a href="/Spring3MVCDemo/gotoupdatepayments.htm"><span class="iconic cog-alt"></span>Payment Tracking</a> 
+            </sec:authorize>
+            </li>
+			
+            <li>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+            <a href="/Spring3MVCDemo/order.htm"><span class="iconic check-alt"></span>Order Tracking</a> 
+            </sec:authorize>
+            </li>
+            
+			
+            <li>
+            <sec:authorize access="hasAnyRole('ROLE_USER','ROLE_ADMIN')">
+            <a href="/Spring3MVCDemo/gotopaymentreports.htm"><span class="iconic article"></span>Payment Reports</a> 
+            </sec:authorize>
+            </li>
+			
+            <li>
+            <sec:authorize access="hasRole('ROLE_SYSADMIN')">
+            <a href="/Spring3MVCDemo/getDisabledCustomers.htm"><span class="iconic key"></span>Enable Customer</a> 
+            </sec:authorize>
+            </li>
+			
+		    <li>
+            <sec:authorize access="isAuthenticated()">
+            <a href="<c:url value="/j_spring_security_logout" />" ><span class="iconic locked"></span>Logout</a>
+            </sec:authorize>
+            </li>
+            
+			
+            <li><a href="#"><span class="iconic chat"></span>Contact</a> </li>
+		</ul>
+		<div class="clearfix"></div>
+	</nav>
+	</div>
 
 	<form:form action="" modelAttribute="orderReport" name="orderreportspage">
-   		<table class="mainheader">
-			<thead>
-				<tr>
-					<th>SalesOrderProcessingSystem - Order Reports</th>
-				</tr>
-			</thead>
-		</table>
-		<table>
-			<tr>
-				<td align="left" width="0%">Welcome <sec:authentication property="principal.username"/>.</td>
-				<td align="right" width="90%">
-  						<a href="<c:url value="/j_spring_security_logout" />" >Logout</a>
-  					</td>
-			</tr>
-		</table>
+   		
+			
 		<table>
 			<tr>
 				<td width="25%">Order Id</td>
