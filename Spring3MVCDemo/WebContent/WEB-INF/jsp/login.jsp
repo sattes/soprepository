@@ -44,7 +44,7 @@ $(function(){
 </head>
 <body onload='document.f.username.focus();'>
 <h1 align="center">&nbsp;</h1>
-<h1 align="left">&nbsp; Welcome <sec:authorize access="isAuthenticated()">  <sec:authentication property="principal.username"/> </sec:authorize> to Sales Order Processing System</h1>
+<h1 align="center">&nbsp; Welcome <sec:authorize access="isAuthenticated()">  <sec:authentication property="principal.username"/> </sec:authorize> to Sales Order Processing System</h1>
 <div class="wrap">
 	
 	<nav>

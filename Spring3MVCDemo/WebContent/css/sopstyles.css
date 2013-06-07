@@ -1,20 +1,26 @@
+body {
+	background: #eff3f6;
+	font-family:"Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+}
+
 .mainheader
 {
 	width: 100%;
 	height: 30px;
-	color: green;
-	background-color: yellow;
+	color: Black;
+	background-color: lightgrey;
 	font-size: medium;
 }
 
 .button
 {
 	width: 130px;
-	height: 30px;
-	border: 2px solid white;
-	color: #0000FF;
+	height: 35px;
+	border: 2px -white tan;
+	color: white;
 	font-weight: bold;
-	background-color: silver;
+	background-color: purple;
+	float:none;
 }
 marquee
 {
@@ -32,14 +38,17 @@ legend
   border:1px solid green;
   color:green;
   font-size:90%;
+  font-family:"Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
   text-align:left;
 }
 #datatable
 {
-	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-family:"Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
 	width:100%;
 	border-collapse:collapse;
 }
+
+
 #datatable td, #datatable th 
 {
 	font-size:1em;
@@ -60,6 +69,38 @@ legend
 	color:#000000;
 	background-color:#EAF2D3;
 }
+
+#mytable
+{
+	font-family:"Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+	
+	width: 1160px;
+	margin: 1em auto;
+	border-collapse:collapse;
+}
+#mytable td, #mytable th 
+{
+	font-size:1em;
+	border:1px solid #98bf21;
+	padding:3px 7px 2px 7px;
+}
+#mytable th 
+{
+	font-size:1.1em;
+	text-align:left;
+	padding-top:5px;
+	padding-bottom:4px;
+	background-color:#A7C942;
+	color:#ffffff;
+}
+#mytable tr.alt td 
+{
+	color:#000000;
+	background-color:#EAF2D3;
+}
+
+
+
 input[type="text"],input[type="password"]
 {
     padding: 5px;   
@@ -94,9 +135,6 @@ select
 	outline: 0;
 	overflow: hidden;
 	height: 30px;
-	background-color: silver;
-	color: blue;
-	border: 1px solid #000;
 	padding: 5px 3px 5px 10px;
 }
 
@@ -114,11 +152,16 @@ textarea
 }
 .errorblock 
 {
+	
 	color: #ff0000;
 	background-color: #ffEEEE;
-	border: 3px solid #ff0000;
+	border: 1px solid #ff0000;
 	padding: 8px;
 	margin: 16px;
+	text-align:center;
+	border-width:thin;
+	width:400px;
+	
 }
 .errormsg
 {

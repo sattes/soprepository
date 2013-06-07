@@ -164,6 +164,7 @@ public class PaymentController {
 		logger.debug("PaymentController::makePayment Start...");
 		
 		logger.debug("PaymentId = "+payment.getPaymentId());
+		logger.debug("paymentDate = "+payment.getPaymentDate());
 		
 		logger.debug("PaymentAmount = "+payment.getPaymentAmount());
 		

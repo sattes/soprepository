@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>SalesOrderProcessingSystem - OrderReports</title>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.24/themes/base/jquery-ui.css">
+<link rel="stylesheet" type="text/css" href="/Spring3MVCDemo/css/jquery-ui.css"/>
 <script src="http://code.jquery.com/jquery-1.8.2.js"></script>
 <script src="http://code.jquery.com/ui/1.8.24/jquery-ui.js"></script>
 <link rel="stylesheet" type="text/css" href="/Spring3MVCDemo/css/sopstyles.css"/>
@@ -71,7 +71,7 @@
 		</table>
 		<table>
 			<tr>
-				<td align="left" width="10%">Welcome <sec:authentication property="principal.username"/>.</td>
+				<td align="left" width="0%">Welcome <sec:authentication property="principal.username"/>.</td>
 				<td align="right" width="90%">
   						<a href="<c:url value="/j_spring_security_logout" />" >Logout</a>
   					</td>

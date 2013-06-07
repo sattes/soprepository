@@ -33,9 +33,9 @@
 				</tr>
 			</thead>
 		</table>
-		<table>
+		<table align="center">
 			<tr>
-				<td align="left" width="10%">Welcome <sec:authentication property="principal.username"/>.</td>
+				<td >Welcome <sec:authentication property="principal.username"/>.</td>
 				<td align="right" width="90%">
   						<a href="<c:url value="/j_spring_security_logout" />" >Logout</a>
   					</td>

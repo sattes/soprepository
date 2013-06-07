@@ -24,8 +24,8 @@ public class Customer implements Serializable{
 	@Pattern(regexp = "[a-zA-Z]*")
     private String fname;
     @NotEmpty
-    @Size(min = 1, max = 50)
-	@Pattern(regexp = "[a-zA-Z]*")
+   // @Size(min = 1, max = 50)
+	//@Pattern(regexp = "[a-zA-Z]*")
     private String lname;
     @NotEmpty
     private String gender;

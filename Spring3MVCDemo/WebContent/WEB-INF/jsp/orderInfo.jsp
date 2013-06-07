@@ -23,6 +23,7 @@
 	</script>
 </head>
 <body>
+
 	<form:form action="" modelAttribute="order" name="orderinfopage">
    		<table class="mainheader">
 			<thead>
@@ -33,7 +34,7 @@
 		</table>
 		<table>
 			<tr>
-				<td align="left" width="10%">Welcome <sec:authentication property="principal.username"/>.</td>
+				<td align="left" width="0%">Welcome <sec:authentication property="principal.username"/></td>
 				<td align="right" width="90%">
   						<a href="<c:url value="/j_spring_security_logout" />" >Logout</a>
   					</td>

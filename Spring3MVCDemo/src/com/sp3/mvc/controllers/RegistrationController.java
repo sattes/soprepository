@@ -105,6 +105,25 @@ public class RegistrationController {
 	public String register(@Valid Customer customer, BindingResult result, Model model) throws SQLException, ClassNotFoundException {
 		logger.debug("Inside register method...");
 		
+		logger.info("Fname"+ customer.getFname());
+		logger.info("lname"+ customer.getLname());
+		logger.info("gender"+ customer.getGender());
+		logger.info("custtype"+ customer.getCustType());
+		logger.info("Email"+ customer.getEmail());
+		logger.info("username"+ customer.getUserName());
+		logger.info("passowrd"+ customer.getPassword());
+		logger.info("Adress1"+ customer.getCustomerAddress().getAddress1());
+		logger.info("Address2"+ customer.getCustomerAddress().getAddress2());
+		logger.info("customer Address:-  "+ customer.getCustomerAddress());
+		logger.info("contry"+ customer.getCustomerAddress().getCountry());
+		logger.info("state"+ customer.getCustomerAddress().getState());
+		logger.info("city"+ customer.getCustomerAddress().getCity());
+		logger.info("zip"+ customer.getCustomerAddress().getZip());
+		logger.info("phone"+ customer.getCustomerAddress().getPhone());
+		
+		
+		
+		
 		 Address customerAddress=customer.getCustomerAddress();
 		 String addr1Message = myProps.getProperty("NotEmpty.customer.address1");
 		 logger.debug("addr1Message - "+addr1Message);
