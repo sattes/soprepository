@@ -7,6 +7,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>SalesOrderProcessingSystem - Payment Gateway</title>
+	<link rel="stylesheet" type="text/css" href="/Spring3MVCDemo/css/sopstyles.css"/>
 </head>
 <body>
 	<form:form action="/Spring3MVCDemo/makepayment.htm" modelAttribute="payment" method="POST">
