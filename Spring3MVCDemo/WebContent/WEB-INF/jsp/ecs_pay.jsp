@@ -106,7 +106,7 @@
 <label>
 				
 				<span> Debt Date: </span>
-				<input value="201-12-01" class="validate[required,custom[date]] text-input" type="text" 
+				<input value="2012-12-01" class="validate[required,custom[date]] text-input" type="text" 
                 name="directDebit.debtDate" id="directDebit.debtDate" />
 			</label>
             
