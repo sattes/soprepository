@@ -199,7 +199,7 @@
 				<p>Country</p>
 				<p>
 				  <select name="shippingAddress.country" id="shippingAddress.country" class="validate[required]">
-				    <option value=""></option>
+				   
 				    <option value="United States">United States</option>
 				    <option value="United Kingdom">United Kingdom</option>
 				    <option value="Afghanistan">Afghanistan</option>
