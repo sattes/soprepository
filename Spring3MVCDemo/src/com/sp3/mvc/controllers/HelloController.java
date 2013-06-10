@@ -1,10 +1,12 @@
 package com.sp3.mvc.controllers;
 
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,58 +36,62 @@ public class HelloController {
 	
 	@RequestMapping("/index")
 	public String sayHello(Model model,HttpServletRequest request) throws SQLException, ClassNotFoundException {
-		logger.debug("Inside sayHello method...");
-		model.addAttribute("message", "Welcome to SalesOrderProcessingSystem");
-		final String currentUser = SecurityContextHolder.getContext()
-				.getAuthentication().getName();
-		if ((currentUser.equals("") || currentUser.equals(null) || currentUser
-				.equalsIgnoreCase("anonymousUser"))) {
-			
-			logger.info("You are not logged in");
-			
-			
-			
-		
-		} 
-		else{
-			Customer dbLogin = null;
+        logger.debug("Inside sayHello method...");
+        model.addAttribute("message", "Welcome to SalesOrderProcessingSystem");
+        final String currentUser = SecurityContextHolder.getContext()
+                     .getAuthentication().getName();
+        if ((currentUser.equals("") || currentUser.equals(null) || currentUser
+                     .equalsIgnoreCase("anonymousUser"))) {
+               
+               logger.info("You are not logged in");
+               
+        } 
+        else{
+        		Object loginParam = request.getSession().getAttribute("login");
+               if(loginParam == null) {
+               Customer dbLogin = null;
 
-			try {
+               try {
 
-				dbLogin = custDao.getCustomerByUserId(currentUser);
+                     dbLogin = custDao.getCustomerByUserId(currentUser);
 
-				} catch (SQLException e) {
+                     } catch (SQLException e) {
 
-				logger.error("SQLException got from CustomerDao in goToCustomerHome()");
+                     logger.error("SQLException got from CustomerDao in goToCustomerHome()");
 
-				throw e;
+                     throw e;
 
-				}
+                     }
 
-
-
-			
-
-			request.getSession().setAttribute("login", dbLogin);
-
-			List<Category> categories = null;
-			try {
-				categories = catDao.getAllCategories();
-				CatAndProducts caps = new CatAndProducts();
-				caps.getCategories().addAll(categories);
-				model.addAttribute("caps", caps);
-			} catch (SQLException e) {
-				logger.error("SQLException got from CategoryDao in getAllCategories()");
-				throw e;
-			}
-			
-			
-		}
-		
-		
-		
-		return "welcomePage";
-	}
+                     request.getSession().setAttribute("login", dbLogin);
+ 
+                     List<Category> categories = null;
+                     try {
+                            categories = catDao.getAllCategories();
+                            CatAndProducts caps = new CatAndProducts();
+                            caps.getCategories().addAll(categories);
+                            model.addAttribute("caps", caps);
+                     } catch (SQLException e) {
+                            logger.error("SQLException got from CategoryDao in getAllCategories()");
+                            throw e;
+                     }
+               } else {
+                     HttpSession session = request.getSession();
+                     if(session != null) {
+                             Enumeration<String> sessionAttributes = session.getAttributeNames();
+                            while(sessionAttributes.hasMoreElements()) {
+                                   String attributeName = sessionAttributes.nextElement();
+                                   if(!attributeName.equals("login")) {
+                                          session.removeAttribute(attributeName);
+                                   }
+                            }
+                     }
+               }
+               
+        }
+        
+        return "welcomePage";
+ }
 	
 	/*@RequestMapping(value="/gotoregister")
 	public String goToRegisterPage(@ModelAttribute("registration")Registration registration, Model model) {
