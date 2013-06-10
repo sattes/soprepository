@@ -7,11 +7,41 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<title>SalesOrderProcessingSystem - Payment Gateway</title>
+    <link rel="stylesheet" type="text/css" href="/Spring3MVCDemo/css/sopstyles.css"/>
+    <link href="/Spring3MVCDemo/css/validationEngine.jquery.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="/Spring3MVCDemo/css/template.css" media="screen" rel="stylesheet" type="text/css" />
+	<script src="/Spring3MVCDemo/js/jquery-1.8.2.min.js"></script>
+	<script src="/Spring3MVCDemo/js/jquery.validationEngine-en.js"></script>
+	<script src="/Spring3MVCDemo/js/jquery.validationEngine.js"></script>
+
+<script>
+		jQuery(document).ready(function(){
+			// binds form submission and fields to the validation engine
+			jQuery("#formID").validationEngine();
+		});
+
+		/**
+		*
+		* @param {jqObject} the field where the validation applies
+		* @param {Array[String]} validation rules for this field
+		* @param {int} rule index
+		* @param {Map} form options
+		* @return an error string if validation failed
+		*/
+		function checkHELLO(field, rules, i, options){
+			if (field.val() != "HELLO") {
+				// this allows to use i18 for the error msgs
+				return options.allrules.validate2fields.alertText;
+			}
+		}
+	</script>
+
+
+
 </head>
 <body>
-	<form:form action="/Spring3MVCDemo/makepayment.htm" modelAttribute="payment" method="POST">
-		
-   		<table class="mainheader">
+    
+    <table class="mainheader">
 			<thead>
 				<tr>
 					<th>SalesOrderProcessingSystem - ECS Payment</th>
@@ -28,55 +58,67 @@
 				</tr>
 			</thead>
 		</table>
+		
+		
+	<form:form action="/Spring3MVCDemo/makepayment.htm" modelAttribute="payment" method="POST" id="formID" class="formular">
 		<fieldset>
-		<legend>Payment Information (Please enter your card details to authorise this transaction)</legend>
-		<table>
-			<tbody>
-				<tr>
-					<td>Account Holder Name</td>
-					<td><form:input path="directDebit.accHolderName" /></td>
-				</tr>
-				<tr>
-					<td>Account Number</td>
-					<td><form:input path="directDebit.accNumber" /></td>
-				</tr>
-				<tr>
-					<td>Account Type</td>
-					<td><form:input path="directDebit.accType" /></td>
-				</tr>
-				<tr>
-					<td>Bank Name</td>
-					<td><form:input path="directDebit.bankName" /></td>
-				</tr>
-				<tr>
-					<td>Branch Name</td>
-					<td><form:input path="directDebit.branchName" /></td>
-				</tr>
-				<tr>
-					<td>IFSC Code</td>
-					<td><form:input path="directDebit.ifscCode" /></td>
-				</tr>
-				<%-- <tr>
-					<td>Debt Amount</td>
-					<td><form:input path="directDebit.debtAmount" /></td>
-				</tr>
-				<tr>
-					<td>Debt Date</td>
-					<td><form:input path="directDebit.debtDate" /></td>
-				</tr> --%>
-				<tr>
-					<td>Debt Frequency</td>
-					<td><form:input path="directDebit.debtFrequency" /></td>
-				</tr>
-				<tr></tr>
-				<tr>
-					<td>
-						<input type="submit" class="button" value="Make Payment"/>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		</fieldset>
+   		<legend>Payment Information (Please enter your card details to authorise this transaction)</legend>
+	            
+           <label>Account Holder Name:
+     <input value="" class="validate[required,custom[onlyLetterSp]] text-input" type="text" name="directDebit.accHolderName" 
+        id="directDebit.accHolderName" />
+          </label>
+
+            <label> <span>Account Number:</span>
+              <input value="" class="validate[required,custom[onlyNumberSp]] text-input" type="text" 
+              name="directDebit.accNumber" id="directDebit.accNumber" />
+            </label>
+            <label><span>Account Type:</span>
+				  <select name="directDebit.accType" id="directDebit.accType" class="validate[required]">
+                    <option value="Saving">Saving</option>
+				    <option value="Current">Current</option>
+				    <option value="NRE">NRE</option>
+				    <option value="NRO">NRO</option>
+				    <option value="FCNR">FCNR</option>
+			 </select>
+                </label>
+      <label>
+				<span>Bank Name : </span>
+				<input value="" class="validate[required] text-input" type="text" 
+                name="directDebit.bankName" id="directDebit.bankName" />
+			</label>
+            
+            <label>
+				<span>Branch Name : </span>
+				<input value="" class="validate[required] text-input" type="text" name="directDebit.branchName" 
+                id="directDebit.branchName" />
+			</label>
+<label>
+				<span>IFSC Code: </span>
+				<input value="" class="validate[required,custom[onlyLetterNumber]] text-input" 
+                type="text" name="directDebit.ifscCode" id="directDebit.ifscCode" />
+			</label>
+<label>
+				<span>Debt Amount : </span>
+				<input value="" class="validate[required,custom[number]] text-input" type="text" 
+                name="directDebit.debtAmount" id="directDebit.debtAmount" />
+			</label>
+<label>
+				
+				<span> Debt Date: </span>
+				<input value="201-12-01" class="validate[required,custom[date]] text-input" type="text" 
+                name="directDebit.debtDate" id="directDebit.debtDate" />
+			</label>
+            
+             <label>
+				<span>Debt Frequency : </span>
+				<input value="" class="validate[required] text-input" type="text" name="directDebit.debtFrequency" 
+                id="directDebit.debtFrequency" />
+			</label>
+     
+          </fieldset>
+        <input class="button" type="submit" value="Make Payment"/><hr/>
+      
 	</form:form>
 </body>
 </html>
