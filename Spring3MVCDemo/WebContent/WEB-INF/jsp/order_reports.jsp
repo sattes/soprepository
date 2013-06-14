@@ -20,7 +20,7 @@
 <script type="text/javascript">
 	function adjust(obj) {
 		if(obj.name == "Close") {
-			document.orderreportspage.action = "/Spring3MVCDemo/backtohome.htm";
+			document.orderreportspage.action = "/Spring3MVCDemo/index.htm";
 			return true;
 		}
 		if(obj.name == "Show") {
