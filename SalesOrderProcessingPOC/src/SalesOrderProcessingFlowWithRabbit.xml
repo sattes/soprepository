@@ -154,7 +154,7 @@
 	 <bean id="wsFaultResolver" class="com.sop.services.WSGatewayFaultResolver"/>
 	<si:aggregator input-channel="wsOutboundChannel"
 		ref="aggregatorBean" method="computeOrderTotal"
-		output-channel="aggOutputChannel" correlation-strategy="correlationStrategy"  release-strategy="defaultSequenceSizerReleaseStrategy">
+		output-channel="aggOutputChannel" correlation-strategy="correlationStrategy" >
 	</si:aggregator>
 	<bean id="defaultSequenceSizerReleaseStrategy" class="org.springframework.integration.aggregator.SequenceSizeReleaseStrategy"></bean>
 	<bean id="correlationStrategy" class="org.springframework.integration.aggregator.HeaderAttributeCorrelationStrategy">

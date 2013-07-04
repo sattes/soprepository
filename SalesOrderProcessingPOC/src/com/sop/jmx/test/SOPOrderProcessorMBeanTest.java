@@ -15,7 +15,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.integration.Message;
 import org.springframework.integration.channel.PublishSubscribeChannel;
 import org.springframework.integration.endpoint.EventDrivenConsumer;
-import org.springframework.integration.message.MessageBuilder;
+
 import org.springframework.jmx.support.MBeanServerConnectionFactoryBean;
 
 import com.sop.test.AMQPMessageHelper;

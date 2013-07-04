@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="C:/Softwares/SQL_Fire_1.0.3/vFabric_SQLFire_103/lib/sqlfire.jar"/>
-	<classpathentry kind="lib" path="C:/Softwares/SQL_Fire_1.0.3/vFabric_SQLFire_103/lib/sqlfireclient.jar"/>
 	<classpathentry kind="lib" path="/Spring3MVCDemo/WebContent/WEB-INF/lib/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="C:/Softwares/SLFire-Lib/sqlfire.jar"/>
+	<classpathentry kind="lib" path="C:/Softwares/SLFire-Lib/sqlfireclient.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

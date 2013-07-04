@@ -202,11 +202,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/SpringInteg/spring-ws-core-2.0.0-M2.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="C:/SpringInteg/spring-integration-2.0.0.RELEASE/bin/spring-integration-file-2.0.0.RELEASE.jar">
 		<attributes>
@@ -223,26 +218,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/ActiveMQ/apache-activemq-5.6.0-bin/apache-activemq-5.6.0/activemq-all-5.6.0.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/ActiveMQ/apache-activemq-5.6.0-bin/apache-activemq-5.6.0/lib/optional/log4j-1.2.16.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/ActiveMQ/apache-activemq-5.6.0-bin/apache-activemq-5.6.0/lib/optional/slf4j-log4j12-1.6.4.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/SpringInteg/spring-integration-1.0.4.RELEASE/lib/com.springsource.org.aopalliance-1.0.0.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="dist/lib/sqlfire.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
@@ -253,31 +228,9 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/enterprise-integration-1.5.0.RELEASE/repository/org/springframework/spring-web/3.0.5.RELEASE/spring-web-3.0.5.RELEASE.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/enterprise-integration-1.5.0.RELEASE/repository/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar"/>
 	<classpathentry kind="lib" path="C:/SpringInteg/org.springframework.web-3.1.0.M2.jar"/>
 	<classpathentry kind="lib" path="C:/SpringInteg/apache-httpcomponents-httpclient.jar"/>
 	<classpathentry kind="lib" path="C:/SpringInteg/apache-httpcomponents-httpcore.jar"/>
-	<classpathentry kind="lib" path="C:/enterprise-integration-1.5.0.RELEASE/repository/commons-codec/commons-codec/1.2/commons-codec-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/SpringInteg/jackson-core-2.2.0-20130310.035304-23.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/SalesOrderProcessingRESTService/WebContent/WEB-INF/lib/xpp3-1.1.4c.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/SalesOrderProcessingRESTService/WebContent/WEB-INF/lib/xstream-1.3.1.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="C:/SpringInteg/spring-amqp-1.0.0.RELEASE.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
@@ -288,20 +241,16 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/SpringInteg/spring-integration-1.0.4.RELEASE/dist/org.springframework.integration-1.0.4.RELEASE.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="C:/SpringInteg/rabbitmq-client.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="C:/SpringInteg/spring-rabbit-1.1.1.RELEASE.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/SpringInteg/activemq-all-5.6.0.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files (x86)/RabbitMQ Clients/java-client-2.8.1/rabbitmq-java-client-bin-2.8.1/rabbitmq-client.jar"/>
+	<classpathentry kind="lib" path="/SOPWeb/WebContent/WEB-INF/lib/spring-web-3.1.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/SpringInteg/spring-ws-core-2.0.0-M2.jar"/>
+	<classpathentry kind="lib" path="C:/SpringInteg/com.springsource.org.aopalliance-1.0.0.jar"/>
+	<classpathentry kind="lib" path="/SOPRESTService/WebContent/WEB-INF/lib/xstream-1.3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

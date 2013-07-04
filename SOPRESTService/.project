@@ -3,7 +3,6 @@
 	<name>SOPRESTService</name>
 	<comment></comment>
 	<projects>
-		<project>SalesOrderProcessingPOC</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
