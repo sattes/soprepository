@@ -42,8 +42,8 @@
     	</property>
     </bean>
     
-    <bean id="myProps" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-	  <property name="location" value="/WEB-INF/properties/myprops.properties"/>
+	<bean id="myProps" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	  <property name="location" value="file:${PROP_FILE_PATH}/myprops.properties"/>
 	</bean>
 	
 	<bean id="accessDeniedHandler" class="com.sp3.mvc.helper.MyAccessDeniedHandler">
